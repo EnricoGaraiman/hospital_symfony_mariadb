@@ -27,11 +27,11 @@ class Medicament
     /**
      * @ORM\OneToMany(targetEntity=Consultatie::class, mappedBy="medicament")
      */
-    private $consultatie;
+    private $consultatii;
 
     public function __construct()
     {
-        $this->consultatie = new ArrayCollection();
+        $this->consultatii = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -54,27 +54,27 @@ class Medicament
     /**
      * @return Collection|Consultatie[]
      */
-    public function getConsultatie(): Collection
+    public function getConsultatii(): Collection
     {
-        return $this->consultatie;
+        return $this->consultatii;
     }
 
-    public function addConsultatie(Consultatie $consultatie): self
+    public function addConsultatii(Consultatie $consultatii): self
     {
-        if (!$this->consultatie->contains($consultatie)) {
-            $this->consultatie[] = $consultatie;
-            $consultatie->setMedicament($this);
+        if (!$this->consultatii->contains($consultatii)) {
+            $this->consultatii[] = $consultatii;
+            $consultatii->setMedicament($this);
         }
 
         return $this;
     }
 
-    public function removeConsultatie(Consultatie $consultatie): self
+    public function removeConsultatii(Consultatie $consultatii): self
     {
-        if ($this->consultatie->removeElement($consultatie)) {
+        if ($this->consultatii->removeElement($consultatii)) {
             // set the owning side to null (unless already changed)
-            if ($consultatie->getMedicament() === $this) {
-                $consultatie->setMedicament(null);
+            if ($consultatii->getMedicament() === $this) {
+                $consultatii->setMedicament(null);
             }
         }
 

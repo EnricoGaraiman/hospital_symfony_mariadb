@@ -33,13 +33,17 @@ class Consultatie
     private $dozaMedicament;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Pacient::class, inversedBy="consultatie")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Medic::class, inversedBy="consultatii")
+     */
+    private $medic;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Pacient::class, inversedBy="consultatii")
      */
     private $pacient;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Medicament::class, inversedBy="consultatie")
+     * @ORM\ManyToOne(targetEntity=Medicament::class, inversedBy="consultatii")
      */
     private $medicament;
 
@@ -80,6 +84,18 @@ class Consultatie
     public function setDozaMedicament(?float $dozaMedicament): self
     {
         $this->dozaMedicament = $dozaMedicament;
+
+        return $this;
+    }
+
+    public function getMedic(): ?Medic
+    {
+        return $this->medic;
+    }
+
+    public function setMedic(?Medic $medic): self
+    {
+        $this->medic = $medic;
 
         return $this;
     }
