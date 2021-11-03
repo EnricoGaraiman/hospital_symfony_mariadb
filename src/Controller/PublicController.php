@@ -9,15 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class PublicController extends AbstractController
 {
     /**
-     * @Route("/lucky/number/{max}", name="app_lucky_number")
+     * @Route("/", name="homepage")
      */
-    public function number(int $max): Response
+    public function homepage(): Response
     {
-
-        $number = random_int(0, $max);
-
-        return new Response(
-            '<html><body>Lucky number: '.$number.'</body></html>'
-        );
+        return $this->render('base.html.twig');
     }
 }
