@@ -21,9 +21,9 @@
             <!-- Page Content  -->
             <div id="content" class="p-0">
                 {% include 'menu/navbar.html.twig' %}
-
-                {% block body %}{% endblock %}
-
+                <div class="content-h-100">
+                    {% block body %}{% endblock %}
+                </div>
                 {% include 'footer.html.twig' %}
             </div>
         </div>

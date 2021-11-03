@@ -109,10 +109,6 @@ a:focus {
     color: #000000;
 }
 
-.min-vh-content {
-    min-height: 90vh !important;
-}
-
 .dropdown-toggle[aria-expanded="true"]:after {
     transform: rotate(180deg);
 }
@@ -240,6 +236,10 @@ a.article:hover {
     -o-transition: all 0.3s;
     -moz-transition: all 0.3s;
     transition: all 0.3s;
+}
+
+.content-h-100 {
+    min-height: calc(100vh - 126px);
 }
 
 /* ---------------------------------------------------
