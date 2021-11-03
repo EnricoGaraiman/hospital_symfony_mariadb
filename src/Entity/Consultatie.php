@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ConsultatieRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * @ORM\Entity(repositoryClass=ConsultatieRepository::class)
@@ -34,16 +35,19 @@ class Consultatie
 
     /**
      * @ORM\ManyToOne(targetEntity=Medic::class, inversedBy="consultatii")
+     * @JoinColumn(onDelete="CASCADE")
      */
     private $medic;
 
     /**
      * @ORM\ManyToOne(targetEntity=Pacient::class, inversedBy="consultatii")
+     * @JoinColumn(onDelete="CASCADE")
      */
     private $pacient;
 
     /**
      * @ORM\ManyToOne(targetEntity=Medicament::class, inversedBy="consultatii")
+     * @JoinColumn(onDelete="CASCADE")
      */
     private $medicament;
 
