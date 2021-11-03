@@ -1,0 +1,94 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Panoul de bord{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/main.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="top-bar sticky-top">
+        <div class="w-100">
+            <div class="px-4 py-2 border bg-light">Prezentare generală</div>
+        </div>
+    </div>
+
+    <div class="content container min-vh-content">
+        <div class="container-fluid dashboard-container">
+            <div class="row">
+                <div class="col-xl border bg-light dashboard-section dashboard-medici m-2">
+                    <div class="p-4 row">
+                        <div class="col">
+                            <div class="widget-heading">Medici</div>
+                            <div class="widget-subheading">Numărul total de medici</div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="widget-numbers text-white float-right"><span>100</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl border bg-light dashboard-section dashboard-consultatii m-2">
+                    <div class="p-4 row">
+                        <div class="col">
+                            <div class="widget-heading">Consultații</div>
+                            <div class="widget-subheading">Numărul total de consultații</div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="widget-numbers text-white float-right"><span>50</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl border bg-light dashboard-section dashboard-pacienti m-2">
+                    <div class="p-4 row">
+                        <div class="col">
+                            <div class="widget-heading">Pacienți</div>
+                            <div class="widget-subheading">Numărul total de pacienți</div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="widget-numbers text-white float-right"><span>1000</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg border bg-light dashboard-section dashboard-last-consultatii m-2">
+                    <div class="p-4">
+                        <div class="widget-heading">Ultimele consultații înregistrate</div>
+                        <div class="last-table row">
+                            <div class="col">
+                                Data
+                            </div>
+                            <div class="col">
+                                Pacient
+                            </div>
+                            <div class="col">
+                                Medic
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg border bg-light dashboard-section dashboard-last-pacienti m-2">
+                    <div class="p-4">
+                        <div class="widget-heading">Ultimii pacienți înregistrați</div>
+                        <div class="last-table row">
+                            <div class="col">
+                                Nume
+                            </div>
+                            <div class="col">
+                                Prenume
+                            </div>
+                            <div class="col">
+                                CNP
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

@@ -19,6 +19,10 @@ p {
     color: #999;
 }
 
+.active {
+    background: var(--hover-color);
+}
+
 .black-text {
     color: #000000!important;
 }
@@ -51,7 +55,7 @@ a:focus {
 
 .top-bar {
     margin-bottom: 24px;
-    top: 68px
+    top: 70px
 }
 
 .navbar-btn {

@@ -1,0 +1,47 @@
+.dashboard-medici {
+    background: rgb(76,113,240);
+    background: -moz-linear-gradient(138deg, rgba(76,113,240,1) 0%, rgba(48,79,186,1) 100%);
+    background: -webkit-linear-gradient(138deg, rgba(76,113,240,1) 0%, rgba(48,79,186,1) 100%);
+    background: linear-gradient(138deg, rgba(76,113,240,1) 0%, rgba(48,79,186,1) 100%);
+}
+
+.dashboard-consultatii {
+    background: rgb(0, 208, 194);
+    background: -moz-linear-gradient(138deg, rgba(0, 208, 194, 1) 0%, rgba(1, 140, 131, 1) 100%);
+    background: -webkit-linear-gradient(138deg, rgba(0, 208, 194, 1) 0%, rgba(1, 140, 131, 1) 100%);
+    background: linear-gradient(138deg, rgba(0, 208, 194, 1) 0%, rgba(1, 140, 131, 1) 100%);
+}
+
+.dashboard-pacienti {
+    background: rgb(240,133,76);
+    background: -moz-linear-gradient(138deg, rgba(240,133,76,1) 0%, rgba(191,87,32,1) 100%);
+    background: -webkit-linear-gradient(138deg, rgba(240,133,76,1) 0%, rgba(191,87,32,1) 100%);
+    background: linear-gradient(138deg, rgba(240,133,76,1) 0%, rgba(191,87,32,1) 100%);
+}
+
+.dashboard-last-consultatii, .dashboard-last-pacienti {
+    background: rgb(28,96,171);
+    background: -moz-linear-gradient(138deg, rgba(28,96,171,1) 0%, rgba(12,64,121,1) 100%);
+    background: -webkit-linear-gradient(138deg, rgba(28,96,171,1) 0%, rgba(12,64,121,1) 100%);
+    background: linear-gradient(138deg, rgba(28,96,171,1) 0%, rgba(12,64,121,1) 100%);
+}
+
+.widget-numbers {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.widget-subheading {
+    color: var(--bg-color);
+    font-size: 14px;
+}
+
+.widget-heading {
+    font-weight: bold;
+    font-size: 20px;
+    color: #ffffff!important;
+}
+
+.last-table {
+    color: var(--bg-color);
+}

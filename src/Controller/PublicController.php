@@ -13,6 +13,6 @@ class PublicController extends AbstractController
      */
     public function homepage(): Response
     {
-        return $this->render('base.html.twig');
+        return $this->render('dashboard/index.html.twig');
     }
 }
