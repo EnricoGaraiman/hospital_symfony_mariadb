@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Pacient;
 use App\Form\RegistrationFormType;
+use App\Repository\PacientRepository;
 use App\Security\EmailVerifier;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,10 +20,12 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     private $emailVerifier;
+    private $entityManager;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, EntityManagerInterface $entityManager)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -66,22 +71,30 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/verify/email", name="app_verify_email")
      */
-    public function verifyUserEmail(Request $request): Response
+    public function verifyUserEmail(Request $request, PacientRepository $pacientRepository): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $id = $request->get('id');
 
-        // validate email confirmation link, sets User::isVerified=true and persists
-        try {
-            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
-
+        if($id === null) {
             return $this->redirectToRoute('app_register');
         }
 
+        $user = $pacientRepository->findOneBy(['id'=>$id]);
+
+        if($user === null) {
+            return $this->redirectToRoute('app_register');
+        }
+
+        // validate email confirmation link, sets User::isVerified=true and persists
+        try {
+            $this->emailVerifier->handleEmailConfirmation($request, $user);
+        } catch (VerifyEmailExceptionInterface $exception) {
+            $this->addFlash('verify_email_error', $exception->getReason());
+            return $this->redirectToRoute('app_register');
+        }
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Adresa ta de email a fost verificată.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('login');
     }
 }
