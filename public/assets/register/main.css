@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+:root {
+    --blue-600: #10529a;
+    --blue-800: #0c4079;
+    --grey-100: #f3f4f6;
+    --grey-200: #e5e7eb;
+    --grey-400: #9ca3af;
+    --grey-500: #6b7280;
+    --grey-700: #374151;
+    --white: #fff;
+}
+
+body {
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 30px;
+    display: flex;
+    height: 100vh;
+    align-items: flex-start;
+    justify-content: center;
+    font-family: "Montserrat", sans-serif;
+    color: var(--grey-700);
+}
+
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    border-radius: 24px;
+    padding: 24px;
+    background-color: var(--white);
+    overflow: hidden;
+    box-shadow: 0 0 #0000, 0 0 #0000, 0 4px 6px -1px rgb(0 0 0 / 10%),
+    0 2px 4px -1px rgb(0 0 0 / 6%);
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-title {
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.header-image {
+    height: 80px;
+    width: 80px;
+}
+
+.header-image svg {
+    position: relative;
+    fill: var(--blue-600);
+}
+
+.button {
+    width: 100%;
+    padding: 16px 16px;
+    margin: 16px 0;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--white);
+    background-color: var(--blue-600);
+    -webkit-appearance: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 200ms, color 200ms;
+}
+.button:active, button:hover {
+    background-color: var(--blue-800);
+}
+
+.link {
+    color: var(--blue-600);
+    font-weight: 500;
+    text-decoration: none;
+}
+.link:hover {
+    text-decoration: underline;
+}
+
+.text {
+    font-size: 14px;
+    line-height: 22px;
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+.text:not(.link) {
+    color: var(--grey-500);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.input {
+    position: relative;
+    margin: 16px 0;
+    font-size: 16px;
+}
+
+.input label {
+    font-weight: normal;
+}
+
+.input input {
+    padding: 14px 20px;
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    border-radius: 8px;
+    background: var(--grey-100);
+    transition: background-color 160ms;
+}
+.input input:focus {
+    background: var(--grey-200);
+}
+
+.form-check-input:checked {
+    background-color: var(--blue-800);
+    border-color: var(--blue-800)
+}
+
+.input-active label {
+    transform: scale(0.7, 0.7) translate(0, -10px);
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-grow: 1;
+}
+.footer .text {
+    margin: 0;
+}
