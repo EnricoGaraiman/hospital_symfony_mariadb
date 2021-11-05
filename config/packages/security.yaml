@@ -31,6 +31,7 @@ security:
 #                check_path: login
             logout:
                 path: app_logout
+                target: login
 
         secured_area:
             form_login:
@@ -46,3 +47,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/pacient, roles: [ROLE_ADMIN, ROLE_PACIENT] }

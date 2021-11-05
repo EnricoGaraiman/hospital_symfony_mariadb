@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Medic;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +19,6 @@ class PublicController extends AbstractController
      */
     public function homepage(): Response
     {
-        return $this->render('dashboard/index.html.twig');
+        return $this->redirectToRoute('login');
     }
 }

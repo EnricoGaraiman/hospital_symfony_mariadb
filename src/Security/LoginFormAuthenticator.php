@@ -52,7 +52,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
          */
         if($user !== null) {
             if ($user->isVerified() == 0) {
-                throw new CustomUserMessageAuthenticationException('Trebuie să îți confirmi emailul.');
+                throw new CustomUserMessageAuthenticationException('Trebuie să îți confirmi emailul pentru a te putea autentifica prima oară în cont.');
             }
             $request->getSession()->set(Security::LAST_USERNAME, $email);
             $badges = [new CsrfTokenBadge('authenticate', $request->get('_csrf_token'))];
@@ -62,7 +62,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             );
         }
         else{
-            throw new CustomUserMessageAuthenticationException('Acest email nu există. ');
+            throw new CustomUserMessageAuthenticationException('Acest email nu există în baza noastră de date. ');
         }
     }
 
@@ -91,8 +91,10 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 //        {
 //            return new RedirectResponse($this->urlGenerator->generate('dashboard'));
 //        }
-        return new RedirectResponse($this->urlGenerator->generate('homepage'));
-
+//        return new RedirectResponse($this->urlGenerator->generate('homepage'));
+        return new RedirectResponse($this->urlGenerator->generate('pacient_profile', [
+            'id' => $user->getId()
+        ]));
     }
 
     protected function getLoginUrl(Request $request): string

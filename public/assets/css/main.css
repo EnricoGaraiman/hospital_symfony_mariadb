@@ -4,6 +4,13 @@
     --main-color: #0c4079;
     --bg-color: #f2f2f2;
     --hover-color: #ff6347;
+    --blue-600: #10529a;
+    --grey-100: #f3f4f6;
+    --grey-200: #e5e7eb;
+    --grey-400: #9ca3af;
+    --grey-500: #6b7280;
+    --grey-700: #374151;
+    --white: #fff;
 }
 
 body {
@@ -17,10 +24,6 @@ p {
     font-weight: 300;
     line-height: 1.7em;
     color: #999;
-}
-
-.active {
-    background: var(--hover-color);
 }
 
 .black-text {
@@ -50,6 +53,14 @@ a:focus {
 }
 
 .nav-link:hover {
+    color: var(--hover-color)!important;
+}
+
+.active {
+    background: var(--hover-color);
+}
+
+.active-link {
     color: var(--hover-color)!important;
 }
 
@@ -111,6 +122,101 @@ a:focus {
 
 .dropdown-toggle[aria-expanded="true"]:after {
     transform: rotate(180deg);
+}
+
+/* ---------------------------------------------------
+    FORMS STYLE
+----------------------------------------------------- */
+
+.button {
+    width: 100%;
+    padding: 16px 16px;
+    margin: 16px 0;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--white);
+    background-color: var(--blue-600);
+    -webkit-appearance: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 200ms, color 200ms;
+}
+.button:active, button:hover {
+    background-color: var(--main-color);
+}
+
+.input label {
+    font-weight: normal;
+}
+
+.input input {
+    padding: 14px 20px;
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    border-radius: 8px;
+    background: var(--grey-100);
+    transition: background-color 160ms;
+    margin-bottom: 30px;
+}
+.input input:focus {
+    background: var(--grey-200);
+}
+
+.form-check-input:checked {
+    background-color: var(--main-color);
+    border-color: var(--main-color)
+}
+
+.input-active label {
+    transform: scale(0.7, 0.7) translate(0, -10px);
+}
+
+.button-width {
+    width: auto;!important;
+}
+
+/* ---------------------------------------------------
+    SELECT2 STYLE CHANGES
+----------------------------------------------------- */
+
+.select2-label {
+    display: block;
+}
+
+.select2-container--default .select2-selection--single {
+    height: 52px;
+    width: 100%!important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 48px;
+    padding-left: 18px;
+}
+
+.select2-container--default .select2-selection--single {
+    background-color: var(--grey-100)!important;
+    border: none!important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 11px;
+    right: 14px;
+}
+
+.select2-results__option {
+    padding: 6px 18px;
+}
+
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background-color: var(--main-color)!important;
+}
+
+.select2-container--open .select2-dropdown--below{
+    border: 1px solid #d9d9d9!important;
 }
 
 /* ---------------------------------------------------
@@ -247,6 +353,9 @@ a.article:hover {
 ----------------------------------------------------- */
 
 @media (max-width: 768px) {
+    .button-width {
+        width: 100%;!important;
+    }
     #sidebar {
         margin-left: -250px;
     }
