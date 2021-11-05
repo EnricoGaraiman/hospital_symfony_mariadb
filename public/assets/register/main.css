@@ -53,6 +53,7 @@ body {
 .header-image {
     height: 80px;
     width: 80px;
+    margin-bottom: 20px;
 }
 
 .header-image svg {
