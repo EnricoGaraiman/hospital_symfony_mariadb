@@ -14,6 +14,7 @@
 body {
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
     margin: 0;
     padding: 30px;
     display: flex;
@@ -144,4 +145,10 @@ body {
 }
 .footer .text {
     margin: 0;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 0!important;
+    }
 }

@@ -12,7 +12,7 @@
             <ul class="nav navbar-nav ms-auto">
                 <li class="nav-item">
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a class="nav-link {{ app.request.get('_route') == 'admin_profile' ? 'active-link' }}"
+                        <a class="nav-link {{ app.request.get('_route') == 'medic_profile' ? 'active-link' }}"
                            href="#">Profilul meu</a>
                     {% elseif is_granted('ROLE_MEDIC')%}
                         <a class="nav-link {{ app.request.get('_route') == 'medic_profile' ? 'active-link' }}"
