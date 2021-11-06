@@ -1,0 +1,59 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Profil{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/medici/main.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="top-bar sticky-top">
+        <div class="w-100">
+            <div class="px-4 py-2 border bg-light">Profilul meu</div>
+        </div>
+    </div>
+
+    <div class="content container min-vh-content">
+        <div class="container-fluid dashboard-container">
+            <div class="row">
+                <div class="col-xl border bg-light dashboard-section  m-2">
+                    <div class="p-4 row">
+{#                        {{ form_start(form) }}#}
+{#                            <div class="row">#}
+{#                                <div class="col-lg-6">#}
+{#                                    {{ form_row(form.prenumePacient) }}#}
+{#                                </div>#}
+{#                                <div class="col-lg-6">#}
+{#                                    {{ form_row(form.numePacient) }}#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="row">#}
+{#                                <div class="col-lg-6">#}
+{#                                    {{ form_row(form.cnp) }}#}
+{#                                </div>#}
+{#                                <div class="col-lg-6">#}
+{#                                    {{ form_row(form.email) }}#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="row">#}
+{#                                <div class="col-lg-6">#}
+{#                                    {{ form_row(form.asigurare) }}#}
+{#                                </div>#}
+{#                                <div class="col-lg-6">#}
+{#                                    {{ form_row(form.adresa) }}#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <button type="submit" class="button button-width float-end">Editează profilul</button>#}
+{#                        {{ form_end(form) }}#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('assets/medici/main.js') }}"></script>
+{% endblock %}

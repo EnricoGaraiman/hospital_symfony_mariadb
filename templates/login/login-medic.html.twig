@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Spital | Autentificare</title>
+    <title>Spital | Autentificare medic</title>
     {% block stylesheets %}
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -28,7 +28,7 @@
         </div>
 
         <h1 class="header-title text-center">
-            Autentifică-te în cont!
+            Autentifică-te ca medic!
         </h1>
 
     </div>
@@ -41,7 +41,7 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('login') }}" method="post">
+    <form action="{{ path('login-medic') }}" method="post">
         <div class="input">
             <label for="username">Email:</label>
             <input type="text" id="username" name="_username" value="{{ last_username }}" required/>
@@ -66,8 +66,8 @@
 
     <div class="footer">
         <p class="text text-center">
-            Nu ai un cont?
-            <a href="{{ path('app_register') }}" class="text link">Creează-ți un cont!</a>
+            Ai un cont de pacient?
+            <a href="{{ path('login') }}" class="text link">Autentifică-te aici!</a>
         </p>
     </div>
 </div>

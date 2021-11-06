@@ -12,30 +12,41 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
+        pacient_user_provider:
             entity:
                 class: App\Entity\Pacient
                 property: email
+
+        medic_user_provider:
+            entity:
+                class: App\Entity\Medic
+                property: email
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            lazy: true
-            provider: app_user_provider
+        admin_secured_area:
+            pattern: ^/medic
+            provider: medic_user_provider
+            custom_authenticators:
+                - App\Security\LoginMedicFormAuthenticator
+            logout:
+                path: app_logout
+                target: login-medic
+
+        user_secured_area:
+            pattern: ^/
+            provider: pacient_user_provider
             custom_authenticators:
                 - App\Security\LoginFormAuthenticator
-#            form_login:
-#                login_path: homepage
-#                check_path: login
             logout:
                 path: app_logout
                 target: login
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
 
-        secured_area:
-            form_login:
-                enable_csrf: true
+#        secured_area:
+#            form_login:
+#                enable_csrf: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -48,3 +59,5 @@ security:
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/pacient, roles: [ROLE_ADMIN, ROLE_PACIENT] }
+        - { path: ^/medic/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/medic, roles: [ROLE_ADMIN, ROLE_MEDIC] }

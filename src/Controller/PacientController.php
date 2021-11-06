@@ -27,7 +27,6 @@ class PacientController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-//            dd($form->getData());
             $pacientUpdate = $form->getData();
             $this->entityManager->persist($pacientUpdate);
             $this->entityManager->flush();
