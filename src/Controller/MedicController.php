@@ -24,16 +24,19 @@ class MedicController extends AbstractController
     public function pacientProfile(Medic $medic, Request $request): Response
     {
         $form = $this->createForm(MedicProfileFormType::class, $medic);
+        $alert = false;
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $medicUpdate = $form->getData();
             $this->entityManager->persist($medicUpdate);
             $this->entityManager->flush();
+            $alert = ['type'=>'success', 'message'=>'Profilul a fost actualizat cu succes!'];
         }
 
         return $this->render('medic/profile.html.twig', [
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'alert'=>$alert
         ]);
     }
 }

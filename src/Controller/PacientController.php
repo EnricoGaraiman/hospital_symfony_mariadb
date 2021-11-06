@@ -24,16 +24,19 @@ class PacientController extends AbstractController
     public function pacientProfile(Pacient $pacient, Request $request): Response
     {
         $form = $this->createForm(PacientProfileFormType::class, $pacient);
+        $alert = false;
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $pacientUpdate = $form->getData();
             $this->entityManager->persist($pacientUpdate);
             $this->entityManager->flush();
+            $alert = ['type'=>'success', 'message'=>'Profilul a fost actualizat cu succes!'];
         }
 
         return $this->render('pacient/profile.html.twig', [
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'alert'=>$alert
         ]);
     }
 }
