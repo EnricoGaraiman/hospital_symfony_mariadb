@@ -65,6 +65,11 @@ class Medic implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $consultatii;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVerified;
+
     public function __construct()
     {
         $this->pacient = new ArrayCollection();
@@ -246,6 +251,18 @@ class Medic implements UserInterface, PasswordAuthenticatedUserInterface
                 $consultatii->setMedic(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

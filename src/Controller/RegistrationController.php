@@ -6,7 +6,6 @@ use App\Entity\Pacient;
 use App\Form\RegistrationFormType;
 use App\Repository\PacientRepository;
 use App\Security\EmailVerifier;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -93,7 +92,6 @@ class RegistrationController extends AbstractController
             $this->addFlash('verify_email_error', $exception->getReason());
             return $this->redirectToRoute('app_register');
         }
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Adresa ta de email a fost verificată.');
 
         return $this->redirectToRoute('login');
