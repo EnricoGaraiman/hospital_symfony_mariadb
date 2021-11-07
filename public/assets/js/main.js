@@ -28,7 +28,17 @@ $(document).ready(function () {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                $(this).parents('form:first').submit();
+                if ($(this).parents('form:first')[0].checkValidity())
+                    $(this).parents('form:first').submit();
+                else {
+                    $(this).parents('form:first')[0].reportValidity()
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Completează toate câmpurile obligatorii',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+                }
             }
         })
     })

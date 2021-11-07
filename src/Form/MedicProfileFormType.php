@@ -16,20 +16,29 @@ class MedicProfileFormType extends AbstractType
         $builder
             ->add('prenumeMedic', TextType::class, [
                 'row_attr' => ['class' => 'input'],
-                'label' => 'Prenume'
+                'label' => 'Prenume',
+                'attr' => [
+                    'placeholder'=>'Tastează prenumele'
+                ],
             ])
             ->add('numeMedic', TextType::class, [
                 'row_attr' => ['class' => 'input'],
-                'label' => 'Nume'
+                'label' => 'Nume',
+                'attr' => [
+                    'placeholder'=>'Tastează numele'
+                ],
             ])
             ->add('email', EmailType::class, [
                 'row_attr' => ['class' => 'input'],
                 'attr' => ['readonly'=>true],
-                'label' => 'Email'
+                'label' => 'Email',
             ])
             ->add('specializare', TextType::class, [
                 'row_attr' => ['class' => 'input'],
-                'label' => 'Specializare'
+                'label' => 'Specializare',
+                'attr' => [
+                    'placeholder'=>'Tastează specializarea'
+                ],
             ])
         ;
     }
