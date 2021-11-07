@@ -13,10 +13,10 @@
                 <li class="nav-item">
                     {% if is_granted('ROLE_ADMIN') %}
                         <a class="nav-link {{ app.request.get('_route') == 'medic_profile' ? 'active-link' }}"
-                           href="#">Profilul meu</a>
+                           href="{{ path('medic_profile', {'id': app.user.id}) }}">Profilul meu</a>
                     {% elseif is_granted('ROLE_MEDIC')%}
                         <a class="nav-link {{ app.request.get('_route') == 'medic_profile' ? 'active-link' }}"
-                           href="#">Profilul meu</a>
+                           href="{{ path('medic_profile', {'id': app.user.id}) }}">Profilul meu</a>
                     {% elseif is_granted('ROLE_PACIENT')%}
                         <a class="nav-link {{ app.request.get('_route') == 'pacient_profile' ? 'active-link' }}"
                            href="{{ path('pacient_profile', {'id': app.user.id}) }}">Profilul meu</a>

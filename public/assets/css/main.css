@@ -66,7 +66,10 @@ a:focus {
 
 .top-bar {
     margin-bottom: 24px;
-    top: 70px
+    top: 70px;
+    -webkit-box-shadow: 0px 5px 6px 2px rgba(173,173,173,0.2);
+    -moz-box-shadow: 0px 5px 6px 2px rgba(173,173,173,0.2);
+    box-shadow: 0px 5px 6px 2px rgba(173,173,173,0.2);
 }
 
 .navbar-btn {
@@ -87,9 +90,9 @@ a:focus {
 }
 
 .dashboard-section {
-    -webkit-box-shadow: 0px 0px 30px -15px rgba(102,102,102,1);
-    -moz-box-shadow: 0px 0px 30px -15px rgba(102,102,102,1);
-    box-shadow: 0px 0px 30px -15px rgba(102,102,102,1);
+    -webkit-box-shadow: 0px 0px 10px 2px rgba(173,173,173,0.4);
+    -moz-box-shadow: 0px 0px 10px 2px rgba(173,173,173,0.4);
+    box-shadow: 0px 0px 10px 2px rgba(173,173,173,0.4);
     border-radius: 10px 10px 10px 10px;
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius: 10px 10px 10px 10px;
@@ -97,15 +100,15 @@ a:focus {
 }
 
 .dashboard-navbar {
-    -webkit-box-shadow: 0px 0px 30px -15px rgba(102,102,102,1);
-    -moz-box-shadow: 0px 0px 30px -15px rgba(102,102,102,1);
-    box-shadow: 0px 0px 30px -15px rgba(102,102,102,1);
+    -webkit-box-shadow: 0px 0px 10px 2px rgba(173,173,173,0.4);
+    -moz-box-shadow: 0px 0px 10px 2px rgba(173,173,173,0.4);
+    box-shadow: 0px 0px 10px 2px rgba(173,173,173,0.4);
 }
 
 .dashboard-footer {
-    -webkit-box-shadow: 0px 0px 30px -15px rgba(102,102,102,1);
-    -moz-box-shadow: 0px 0px 30px -15px rgba(102,102,102,1);
-    box-shadow: 0px 0px 30px -15px rgba(102,102,102,1);
+    -webkit-box-shadow: 0px 0px 10px 2px rgba(173,173,173,0.4);
+    -moz-box-shadow: 0px 0px 10px 2px rgba(173,173,173,0.4);
+    box-shadow: 0px 0px 10px 2px rgba(173,173,173,0.4);
 }
 
 .footer-link {
