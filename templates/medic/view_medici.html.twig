@@ -18,11 +18,64 @@
         {% for message in app.flashes('success') %}
             <div class="alert alert-success m-2" role="alert">{{ message }}</div>
         {% endfor %}
+
+        <!-- Filters -->
         <div class="container-fluid dashboard-container">
             <div class="row">
                 <div class="col-xl border bg-light dashboard-section  m-2">
                     <div class="p-4 row">
+                        {{ form_start(filters) }}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                {{ form_row(filters.user, {'label': 'Medic'}) }}
+                            </div>
+                        </div>
+                        <button type="submit" class="button button-width float-end btn-filters-search">Caută</button>
+                        <button type="reset" class="button button-width float-end btn-filters-delete">Șterge</button>
+                        {{ form_end(filters) }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Table -->
+        <div class="container-fluid dashboard-container">
+            <div class="row">
+                <div class="col-xl border bg-light dashboard-section  m-2">
+                    <div class="p-4 row">
+                        <div class="row">
+                            <select class="form-select items-per-page-select">
+                                <option value="5" selected>5 pe pagină</option>
+                                <option value="10">10 pe pagină</option>
+                                <option value="50">50 pe pagină</option>
+                                <option value="100">100 pe pagină</option>
+                            </select>
+                        </div>
+
+                        <div class="table-responsive-xl disable-scrollbars">
+                            <table class="table" id="medici-view-table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Prenume</th>
+                                    <th scope="col">Nume</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Specializare</th>
+                                    <th scope="col">Administrator</th>
+                                    <th scope="col">Acțiuni</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -33,5 +86,13 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('assets/medici/main.js') }}"></script>
+    <script>
+        let isGranted = false;
+        let userId = -1;
+        {% if is_granted('ROLE_ADMIN') %}
+            isGranted = true;
+            userId = {{ app.user.id }};
+        {% endif %}
+    </script>
     <script type="text/javascript" src="{{ asset('assets/medici/table.js') }}"></script>
 {% endblock %}

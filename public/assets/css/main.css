@@ -3,6 +3,7 @@
 :root {
     --main-color: #0c4079;
     --bg-color: #f2f2f2;
+    --orange: #f86f56;
     --hover-color: #ff6347;
     --blue-600: #10529a;
     --grey-100: #f3f4f6;
@@ -11,6 +12,8 @@
     --grey-500: #6b7280;
     --grey-700: #374151;
     --white: #fff;
+    --red: #e60000;
+    --red-hover: #b40101;
 }
 
 body {
@@ -151,7 +154,8 @@ a:focus {
 }
 
 .input label {
-    font-weight: normal;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .input input {
@@ -352,21 +356,109 @@ a.article:hover {
 }
 
 /* ---------------------------------------------------
+    FILTERS STYLE
+----------------------------------------------------- */
+
+.btn-filters-search {
+    margin-left: 10px;
+    padding: 10px 24px;
+}
+
+.btn-filters-delete {
+    margin-right: 10px;
+    padding: 10px 24px;
+    background-color: var(--red);
+}
+
+.btn-filters-delete:hover {
+    background-color: var(--red-hover);
+}
+
+.items-per-page-select {
+    width: fit-content;
+    margin-bottom: 20px;
+}
+
+.disable-scrollbars::-webkit-scrollbar {
+    background: transparent; /* Chrome/Safari/Webkit */
+    width: 0px;
+}
+
+.disable-scrollbars {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
+}
+
+/* ---------------------------------------------------
+    PAGINATION STYLE
+----------------------------------------------------- */
+
+.page-link {
+    color: #000000;!important;
+}
+
+.page-item.active .page-link {
+    background-color: var(--main-color) !important;
+}
+
+.page-link:hover {
+    background-color: var(--main-color);!important;
+    color: var(--white);
+}
+
+.btn-view {
+    color: #0c4079;
+    margin-left: 4px;
+}
+
+.btn-view:hover {
+    color: #08376e;
+}
+
+.btn-edit {
+    color: #147a14;
+    margin-left: 4px;
+}
+
+.btn-edit:hover {
+    color: #0f670f;
+}
+
+.btn-delete {
+    color: #e60000;
+    margin-left: 4px;
+}
+
+.btn-delete:hover {
+    color: #a90303;
+}
+
+/* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
+
+@media (max-width: 1300px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+
+    #sidebar.active {
+        margin-left: 0;
+    }
+
+    #sidebarCollapse span {
+        display: none;
+    }
+}
 
 @media (max-width: 768px) {
     .button-width {
         width: 100%;!important;
     }
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-    #sidebarCollapse span {
-        display: none;
+
+    .btn-filters-delete, .btn-filters-search {
+        margin-left: 0!important;
+        margin-right: 0!important;
     }
 }
 
