@@ -25,11 +25,12 @@ function ajaxProccessingStage() {
         dataType: 'json',
         data: getData(),
         beforeSend: function () {
-            $('#medici-view-table tbody').html('');
+            $('#medici-view-table tbody').html('<div class="loader"></div>');
             $('.pagination').html('');
         },
         success: function (data) {
             // On success refresh table
+            $('#medici-view-table tbody').html('');
             tableTemplate(data['medici']);
             paginationTemplate(parseInt(data['pagina']), parseInt(data['numberOfPages']));
             paginationProccessing();
@@ -116,10 +117,13 @@ function tableTemplate(medici) {
                         <td>`
                             if(isGranted === true && userId !== medic['id']) {
                                 html += `
-                                    <a class="btn-view"><i class="fas fa-eye"></i></a>
-                                    <a class="btn-edit"><i class="fas fa-edit"></i></a>
-                                    <a class="btn-delete"><i class="fas fa-trash"></i></a>
+                                    <a href="/medic/vizualizare/${medic['id']}" class="btn-view"><i class="fas fa-eye"></i></a>
+                                    <a href="/medic/actualizare/${medic['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>
+                                    <a class="btn-delete" onclick="deleteMedic('${medic['id']}')"><i class="fas fa-trash"></i></a>
                                 `;
+                            }
+                            else {
+                                html += `<a href="/medic/vizualizare/${medic['id']}" class="btn-view"><i class="fas fa-eye"></i></a>`
                             }
                 html += `</td>
                     </tr>`;

@@ -58,6 +58,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/pacient, roles: [ROLE_ADMIN, ROLE_PACIENT] }
         - { path: ^/medic/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/medic, roles: [ROLE_ADMIN, ROLE_MEDIC] }
+        - { path: ^/pacient, roles: [ ROLE_ADMIN, ROLE_PACIENT ] }
+

@@ -5,17 +5,17 @@
         </div>
 
         <ul class="list-unstyled components">
-            <li class="active">
-                <a href="#">Prezentare generală</a>
+            <li {{ app.request.get('_route') == 'dashboard' ? 'class="active"' }}>
+                <a href="{{ path('dashboard') }}">Prezentare generală</a>
             </li>
             <li>
-                <a href="#medicilink" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Medici</a>
-                <ul class="collapse list-unstyled" id="medicilink">
+                <a href="#medicilink" data-toggle="collapse" aria-expanded="{{ app.request.get('_route') == 'view_medici' or app.request.get('_route') == 'add_medic' ? 'true' : 'false' }}" class="dropdown-toggle">Medici</a>
+                <ul class="collapse list-unstyled {{ app.request.get('_route') == 'view_medici' or app.request.get('_route') == 'add_medic' ? 'show' }}" id="medicilink">
                     <li>
-                        <a href="#">Vizualizare medici</a>
+                        <a href="{{ path('view_medici') }}" {{ app.request.get('_route') == 'view_medici' ? 'class="active"' }}>Vizualizare medici</a>
                     </li>
                     <li>
-                        <a href="#">Adăugare medic</a>
+                        <a href="{{ path('add_medic') }}" {{ app.request.get('_route') == 'add_medic' ? 'class="active"' }}>Adăugare medic</a>
                     </li>
                 </ul>
             </li>

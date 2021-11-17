@@ -3,25 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Medic;
-use App\Form\MedicFormType;
+use App\Form\EditMedicFormType;
 use App\Form\MediciPacientiFiltersType;
 use App\Form\MedicProfileFormType;
 use App\Repository\MedicRepository;
 use App\Services\JsonSerializerService;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 class MedicController extends AbstractController
 {
@@ -29,6 +23,14 @@ class MedicController extends AbstractController
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @Route("/medic/dashboard", name="dashboard")
+     */
+    public function dashboard(): Response
+    {
+        return $this->render('dashboard/index.html.twig');
     }
 
     /**
@@ -56,7 +58,7 @@ class MedicController extends AbstractController
     /**
      * @Route("/medic/vizualizare-medici", name="view_medici")
      */
-    public function viewMedici(Request $request): Response
+    public function viewMedici(): Response
     {
         $filters = $this->createForm(MediciPacientiFiltersType::class);
 
@@ -82,34 +84,12 @@ class MedicController extends AbstractController
     }
 
     /**
-     * @Route("/medic/adaugare-medic", name="add_medic")
+     * @Route("/medic/vizualizare/{id}", name="view_medic")
      */
-    public function addMedic(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
+    public function editMedic(Medic $medic): Response
     {
-        $form = $this->createForm(MedicFormType::class, new Medic());
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $medic = $form->getData();
-            $medic->setPassword(
-                $userPasswordHasherInterface->hashPassword(
-                    $medic,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-            $medic->setIsVerified(true);
-            if($form->get('administrator')->getData() === 1)
-                $medic->setRoles(['ROLE_ADMIN', 'ROLE_MEDIC']);
-            else
-                $medic->setRoles(['ROLE_MEDIC']);
-            $this->entityManager->persist($medic);
-            $this->entityManager->flush();
-            $this->addFlash('success', 'Medicul a fost adăugat cu succes.');
-            return new RedirectResponse($this->generateUrl('view_medici'));
-        }
-
-        return $this->render('medic/add_medic.html.twig', [
-            'form'=>$form->createView(),
+        return $this->render('medic/view_medic.html.twig', [
+            'medic'=>$medic,
         ]);
     }
 }
