@@ -68,6 +68,10 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $medic = $form->getData();
+            if($form->get('administrator')->getData() === 1)
+                $medic->setRoles(['ROLE_ADMIN', 'ROLE_MEDIC']);
+            else
+                $medic->setRoles(['ROLE_MEDIC']);
             $this->entityManager->persist($medic);
             $this->entityManager->flush();
             $this->addFlash('success', 'Medicul a fost actualizat cu succes.');
@@ -76,6 +80,7 @@ class AdminController extends AbstractController
 
         return $this->render('medic/edit_medic.html.twig', [
             'form'=>$form->createView(),
+            'isAdmin'=>in_array('ROLE_ADMIN', $medic->getRoles()) ? 1 : 0
         ]);
     }
 

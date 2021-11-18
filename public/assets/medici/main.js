@@ -10,6 +10,12 @@ $(document).ready(function() {
     });
 });
 
+
+if(typeof isAdmin !== 'undefined' && isAdmin === 1) {
+    $('#edit_medic_form_administrator').val('1');
+    $('#edit_medic_form_administrator').trigger('change');
+}
+
 function deleteMedic(id) {
     Swal.fire({
         title: 'Ești sigur că dorești să ștergi acest medic?',

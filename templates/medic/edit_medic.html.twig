@@ -47,5 +47,10 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        {% if isAdmin is defined %}
+            let isAdmin = {{ isAdmin }};
+        {% endif %}
+    </script>
     <script type="text/javascript" src="{{ asset('assets/medici/main.js') }}"></script>
 {% endblock %}

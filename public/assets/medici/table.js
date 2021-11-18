@@ -25,11 +25,13 @@ function ajaxProccessingStage() {
         dataType: 'json',
         data: getData(),
         beforeSend: function () {
-            $('#medici-view-table tbody').html('<div class="loader"></div>');
+            $('body').append('<div class="loader"></div>')
+            $('#medici-view-table tbody').html('');
             $('.pagination').html('');
         },
         success: function (data) {
             // On success refresh table
+            $('.loader').remove()
             $('#medici-view-table tbody').html('');
             tableTemplate(data['medici']);
             paginationTemplate(parseInt(data['pagina']), parseInt(data['numberOfPages']));
