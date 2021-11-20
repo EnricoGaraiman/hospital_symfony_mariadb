@@ -24,7 +24,7 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         admin_secured_area:
-            pattern: ^/medic
+            pattern: ^/
             provider: medic_user_provider
             custom_authenticators:
                 - App\Security\LoginMedicFormAuthenticator

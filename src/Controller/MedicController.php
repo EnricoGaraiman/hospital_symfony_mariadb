@@ -6,6 +6,7 @@ use App\Entity\Medic;
 use App\Form\EditMedicFormType;
 use App\Form\MediciFiltersType;
 use App\Form\MedicProfileFormType;
+use App\Form\PacientiFiltersType;
 use App\Repository\MedicRepository;
 use App\Services\JsonSerializerService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -90,6 +91,18 @@ class MedicController extends AbstractController
     {
         return $this->render('medic/view_medic.html.twig', [
             'medic'=>$medic,
+        ]);
+    }
+
+    /**
+     * @Route("/medic/vizualizare-pacienti", name="view_pacienti")
+     */
+    public function viewPacienti(): Response
+    {
+        $filters = $this->createForm(PacientiFiltersType::class);
+
+        return $this->render('pacient/view_pacienti.html.twig', [
+            'filters'=>$filters->createView(),
         ]);
     }
 }

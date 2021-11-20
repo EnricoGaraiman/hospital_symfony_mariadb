@@ -35,7 +35,7 @@ function deleteMedic(id) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/medic/stergere/' + id,
+                url: '/admin/stergere/' + id,
                 dataType: 'json',
                 success: function (data) {
                     ajaxProccessingStage();

@@ -27,7 +27,7 @@ class LoginController extends AbstractController
     }
 
     /**
-     * @Route("medic/login", name="login-medic")
+     * @Route("/medic/login", name="login-medic")
      */
     public function loginMedic(AuthenticationUtils $authenticationUtils): Response
     {

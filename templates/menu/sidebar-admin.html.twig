@@ -20,10 +20,10 @@
                 </ul>
             </li>
             <li>
-                <a href="#pacientilink" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pacienți</a>
-                <ul class="collapse list-unstyled" id="pacientilink">
+                <a href="#pacientilink" data-toggle="collapse" aria-expanded="{{ app.request.get('_route') == 'view_pacienti' or app.request.get('_route') == 'add_pacient' ? 'true' : 'false' }}" class="dropdown-toggle">Pacienți</a>
+                <ul class="collapse list-unstyled {{ app.request.get('_route') == 'view_pacienti' or app.request.get('_route') == 'add_pacient' ? 'show' }}" id="pacientilink">
                     <li>
-                        <a href="#">Vizualizare pacienți</a>
+                        <a href="{{ path('view_pacienti') }}" {{ app.request.get('_route') == 'view_pacienti' ? 'class="active"' }}>Vizualizare pacienți</a>
                     </li>
                     <li>
                         <a href="#">Adăugare pacient</a>
