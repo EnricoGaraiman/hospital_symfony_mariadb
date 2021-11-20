@@ -240,6 +240,7 @@ a:focus {
     min-width: 250px;
     max-width: 250px;
     background: var(--main-color);
+    background: linear-gradient(145deg, rgba(12,64,121,1) 0%, rgba(28,96,171,1) 100%);
     color: #fff;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
@@ -256,7 +257,6 @@ a:focus {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: var(--main-color);
 }
 
 #sidebar ul.components {
@@ -312,7 +312,7 @@ a[data-toggle="collapse"] {
 
 ul ul a {
     padding-left: 30px !important;
-    background: var(--main-color);
+    /*background: var(--main-color);*/
 }
 
 ul.CTAs {
@@ -389,6 +389,17 @@ a.article:hover {
     -ms-overflow-style: none;  /* IE 10+ */
 }
 
+@media (max-width: 768px) {
+    .number-of-results {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .pagination {
+        justify-content: center!important;
+    }
+}
+
 /* ---------------------------------------------------
     PAGINATION STYLE
 ----------------------------------------------------- */
@@ -434,14 +445,14 @@ a.article:hover {
 }
 
 .btn-add-new {
-    background-color: var(--main-color);
+    background-color: var(--blue-600);
     padding: 10px 24px;
     margin: 0;
     text-align: center;
 }
 
 .btn-add-new:hover {
-    background-color: var(--hover-color);
+    background-color: var(--main-color);
     color: #FFFFFF;
 }
 

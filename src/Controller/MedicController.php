@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Medic;
 use App\Form\EditMedicFormType;
-use App\Form\MediciPacientiFiltersType;
+use App\Form\MediciFiltersType;
 use App\Form\MedicProfileFormType;
 use App\Repository\MedicRepository;
 use App\Services\JsonSerializerService;
@@ -60,7 +60,7 @@ class MedicController extends AbstractController
      */
     public function viewMedici(): Response
     {
-        $filters = $this->createForm(MediciPacientiFiltersType::class);
+        $filters = $this->createForm(MediciFiltersType::class);
 
         return $this->render('medic/view_medici.html.twig', [
             'filters'=>$filters->createView(),
@@ -79,7 +79,7 @@ class MedicController extends AbstractController
         $response['medici'] = $mediciArray;
         $response['pagina'] = $request->get('pagina');
         $response['numberOfPages'] = ceil($numberOfMedici / intval($request->get('itemi')));
-        $response['numberOfRows'] = count($mediciArray);
+        $response['numberOfRows'] = $numberOfMedici;
         return new JsonResponse($response);
     }
 

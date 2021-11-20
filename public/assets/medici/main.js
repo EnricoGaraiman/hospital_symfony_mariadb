@@ -10,6 +10,12 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function() {
+    $('#medici_filters_administrator').select2({
+        width: '100%',
+        placeholder: 'Filtrează administratorii sau medicii'
+    });
+});
 
 if(typeof isAdmin !== 'undefined' && isAdmin === 1) {
     $('#edit_medic_form_administrator').val('1');

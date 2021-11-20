@@ -26,8 +26,11 @@
                     <div class="p-4 row">
                         {{ form_start(filters) }}
                         <div class="row">
-                            <div class="col-lg-12">
-                                {{ form_row(filters.user, {'label': 'Medic'}) }}
+                            <div class="col-lg-6">
+                                {{ form_row(filters.user) }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ form_row(filters.administrator) }}
                             </div>
                         </div>
                         <button type="submit" class="button button-width float-end btn-filters-search">Caută</button>
@@ -78,8 +81,11 @@
                             </table>
                         </div>
 
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
+                        <nav aria-label="Page navigation example" class="row">
+                            <div class="col-md-auto number-of-results">
+
+                            </div>
+                            <ul class="col-md pagination justify-content-end">
 
                             </ul>
                         </nav>

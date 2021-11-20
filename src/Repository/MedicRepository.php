@@ -43,9 +43,19 @@ class MedicRepository extends ServiceEntityRepository implements PasswordUpgrade
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->like('m.prenumeMedic', ':search'),
                 $qb->expr()->like('m.numeMedic', ':search'),
-                $qb->expr()->like('m.email', ':search')
+                $qb->expr()->like('m.email', ':search'),
+                $qb->expr()->like('m.specializare', ':search')
             ))
             ->setParameter('search', '%'. $filters['medic'] . '%');
+
+            if($filters['administrator'] !== "" and $filters['administrator'] == 1) {
+                $qb->andwhere('m.roles LIKE :roles')
+                    ->setParameter('roles', '%"' . 'ROLE_ADMIN' . '"%');
+            }
+            else if($filters['administrator'] !== "" and $filters['administrator'] == 0) {
+                $qb->andwhere('m.roles NOT LIKE :roles')
+                    ->setParameter('roles', '%"' . 'ROLE_ADMIN' . '"%');
+            }
 
         if($getNumber === true) {
             $qb->select('count(distinct(m.id))');

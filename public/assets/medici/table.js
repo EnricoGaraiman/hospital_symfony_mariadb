@@ -9,7 +9,8 @@ $(document).ready(function () {
     })
 
     $('.btn-filters-delete').on('click', function (e) {
-        $('#medici_pacienti_filters_user').val('');
+        $('#medici_filters_user').val('');
+        $('#medici_filters_administrator').val('').trigger("change");
         ajaxProccessingStage();
     })
 
@@ -28,13 +29,14 @@ function ajaxProccessingStage() {
             $('body').append('<div class="loader"></div>')
             $('#medici-view-table tbody').html('');
             $('.pagination').html('');
+            $('.number-of-results').html('');
         },
         success: function (data) {
             // On success refresh table
             $('.loader').remove()
             $('#medici-view-table tbody').html('');
             tableTemplate(data['medici']);
-            paginationTemplate(parseInt(data['pagina']), parseInt(data['numberOfPages']));
+            paginationTemplate(parseInt(data['pagina']), parseInt(data['numberOfPages']), parseInt(data['numberOfRows']));
             paginationProccessing();
         },
         error: function (jqXhr, textStatus, errorMessage) {
@@ -48,7 +50,10 @@ function getData() {
     let url = new URL(window.location.href);
     let searchParams = new URLSearchParams(url.search);
     let data = {};
-    data['filtre'] = {'medic': $('#medici_pacienti_filters_user').val() !== null ? $('#medici_pacienti_filters_user').val() : ''};
+    data['filtre'] = {
+        'medic': $('#medici_filters_user').val() !== null ? $('#medici_filters_user').val() : '',
+        'administrator': $('#medici_filters_administrator').val() !== null ? $('#medici_filters_administrator').val() : ''
+    };
     data['itemi'] = $('.items-per-page-select option:selected').val();
     data['pagina'] = searchParams.get('pagina');
     return data;
@@ -70,7 +75,7 @@ function paginationProccessing() {
 }
 
 // Dinamic pagination
-function paginationTemplate(page, numberOfPages) {
+function paginationTemplate(page, numberOfPages, numberOfRows) {
     let html = ``;
     if (page > 1) {
         html += `<li class="page-item">
@@ -96,6 +101,12 @@ function paginationTemplate(page, numberOfPages) {
             </li>`
     }
     $('.pagination').append(html);
+    if(numberOfRows > 0) {
+        $('.number-of-results').append(`${numberOfRows} rezultate`);
+    }
+    else {
+        $('.number-of-results').append(`Niciun rezultat`);
+    }
 }
 
 // Generate table with users
