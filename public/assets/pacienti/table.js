@@ -9,8 +9,8 @@ $(document).ready(function () {
     })
 
     $('.btn-filters-delete').on('click', function (e) {
-        $('#medici_filters_user').val('');
-        $('#medici_filters_administrator').val('').trigger("change");
+        $('#pacienti_filters_user').val('');
+        $('#pacienti_filters_asigurare').val('').trigger("change");
         ajaxProccessingStage();
     })
 
@@ -22,7 +22,7 @@ $(document).ready(function () {
 // Send request with ajax
 function ajaxProccessingStage() {
     $.ajax({
-        url: '/medic/vizualizare-medici-json',
+        url: '/medic/vizualizare-pacienti-json',
         dataType: 'json',
         data: getData(),
         beforeSend: function () {
@@ -34,8 +34,8 @@ function ajaxProccessingStage() {
         success: function (data) {
             // On success refresh table
             $('.loader').remove()
-            $('#medici-view-table tbody').html('');
-            tableTemplate(data['medici']);
+            $('#pacienti-view-table tbody').html('');
+            tableTemplate(data['pacienti']);
             paginationTemplate(parseInt(data['pagina']), parseInt(data['numberOfPages']), parseInt(data['numberOfRows']));
             paginationProccessing();
         },
@@ -51,8 +51,8 @@ function getData() {
     let searchParams = new URLSearchParams(url.search);
     let data = {};
     data['filtre'] = {
-        'medic': $('#medici_filters_user').val() !== null ? $('#medici_filters_user').val() : '',
-        'administrator': $('#medici_filters_administrator').val() !== null ? $('#medici_filters_administrator').val() : ''
+        'pacient': $('#pacienti_filters_user').val() !== null ? $('#pacienti_filters_user').val() : '',
+        'asigurare': $('#pacienti_filters_asigurare').val() !== null ? $('#pacienti_filters_asigurare').val() : ''
     };
     data['itemi'] = $('.items-per-page-select option:selected').val();
     data['pagina'] = searchParams.get('pagina');
@@ -110,36 +110,37 @@ function paginationTemplate(page, numberOfPages, numberOfRows) {
 }
 
 // Generate table with users
-function tableTemplate(medici) {
+function tableTemplate(pacienti) {
     let html = ``;
-    $.each(medici, function( index, medic ) {
+    $.each(pacienti, function( index, pacient ) {
         html += `<tr>
-                        <td>${medic['id']}</td>
-                        <td>${medic['prenumeMedic']}</td>
-                        <td>${medic['numeMedic']}</td>
-                        <td>${medic['email']}</td>
-                        <td>${medic['specializare']}</td>
+                        <td>${pacient['id']}</td>
+                        <td>${pacient['prenumePacient']}</td>
+                        <td>${pacient['numePacient']}</td>
+                        <td>${pacient['email']}</td>
+                        <td>${pacient['cnp']}</td>
                         <td>`
-                            if($.inArray('ROLE_ADMIN', medic['roles']) !== -1) {
-                                html += `<span class="badge rounded-pill bg-danger">ADMINISTRATOR</span>`;
-                            }
-                            else {
-                                html += `<span class="badge rounded-pill bg-dark">MEDIC</span>`;
-                            }
-                 html += `</td>
-                        <td>`
-                            if(isGranted === true && userId !== medic['id']) {
-                                html += `
-                                    <a href="/medic/vizualizare-medic/${medic['id']}" class="btn-view"><i class="fas fa-eye"></i></a>
-                                    <a href="/medic/actualizare-medic/${medic['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>
-                                    <a class="btn-delete" onclick="deleteMedic('${medic['id']}')"><i class="fas fa-trash"></i></a>
-                                `;
-                            }
-                            else {
-                                html += `<a href="/medic/vizualizare-medic/${medic['id']}" class="btn-view"><i class="fas fa-eye"></i></a>`
-                            }
-                html += `</td>
+        if(pacient['adresa'] !== null) {
+            html += `${pacient['adresa']}`;
+        }
+        else {
+            html += `<span class="badge rounded-pill bg-warning">Nespecificată</span>`;
+        }
+        html += `</td><td>`
+        if(pacient['asigurare'] == 1) {
+            html += `<span class="badge rounded-pill bg-success">DA</span>`;
+        }
+        else {
+            html += `<span class="badge rounded-pill bg-danger">NU</span>`;
+        }
+        html += `</td><td>`
+        html += `
+                <a href="/medic/vizualizare-pacient/${pacient['id']}" class="btn-view"><i class="fas fa-eye"></i></a>
+                <a href="/medic/actualizare-pacient/${pacient['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>
+                <a class="btn-delete" onclick="deleteMedic('${pacient['id']}')"><i class="fas fa-trash"></i></a>
+            `;
+        html += `</td>
                     </tr>`;
     });
-    $('#medici-view-table').children('tbody').append(html);
+    $('#pacienti-view-table').children('tbody').append(html);
 }

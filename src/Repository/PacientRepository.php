@@ -36,6 +36,36 @@ class PacientRepository extends ServiceEntityRepository implements PasswordUpgra
         $this->_em->flush();
     }
 
+    public function getPacientiByFilters($filters, $items, $page, $getNumber)
+    {
+        $qb = $this->createQueryBuilder('p');
+        // filters
+        $qb->andWhere($qb->expr()->orX(
+            $qb->expr()->like('p.prenumePacient', ':search'),
+            $qb->expr()->like('p.numePacient', ':search'),
+            $qb->expr()->like('p.email', ':search'),
+            $qb->expr()->like('p.cnp', ':search')
+        ))
+            ->setParameter('search', '%'. $filters['pacient'] . '%');
+
+        if($filters['asigurare'] !== "" and $filters['asigurare'] == 1) {
+            $qb->andwhere('p.asigurare = 1');
+        }
+        else if($filters['asigurare'] !== "" and $filters['asigurare'] == 0) {
+            $qb->andwhere('p.asigurare = 0');
+        }
+
+        if($getNumber === true) {
+            $qb->select('count(distinct(p.id))');
+            return $qb->getQuery()->getSingleScalarResult();
+        }
+
+        $qb->orderBy('p.id', 'DESC')
+            ->setFirstResult(((int)$page - 1) * (int)$items)
+            ->setMaxResults((int)$items);
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Pacient[] Returns an array of Pacient objects
     //  */

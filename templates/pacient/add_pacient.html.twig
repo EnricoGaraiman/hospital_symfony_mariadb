@@ -1,16 +1,16 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Adăugare medic{% endblock %}
+{% block title %}Adăugare pacient{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/medici/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/pacienti/main.css') }}">
 {% endblock %}
 
 {% block body %}
     <div class="top-bar sticky-top">
         <div class="w-100">
-            <div class="px-4 py-2 border bg-light">Adăugare medic</div>
+            <div class="px-4 py-2 border bg-light">Adăugare pacient</div>
         </div>
     </div>
 
@@ -25,10 +25,10 @@
                         {{ form_start(form) }}
                         <div class="row">
                             <div class="col-lg-6">
-                                {{ form_row(form.prenumeMedic) }}
+                                {{ form_row(form.prenumePacient) }}
                             </div>
                             <div class="col-lg-6">
-                                {{ form_row(form.numeMedic) }}
+                                {{ form_row(form.numePacient) }}
                             </div>
                         </div>
                         <div class="row">
@@ -41,13 +41,18 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
-                                {{ form_row(form.specializare) }}
+                                {{ form_row(form.cnp) }}
                             </div>
                             <div class="col-lg-6">
-                                {{ form_row(form.administrator) }}
+                                {{ form_row(form.asigurare) }}
                             </div>
                         </div>
-                        <button type="submit" class="button button-width float-end request-confirmation" message="Ești sigur că vrei să adaugi acest medic?">Adaugă medicul</button>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                {{ form_row(form.adresa) }}
+                            </div>
+                        </div>
+                        <button type="submit" class="button button-width float-end request-confirmation" message="Ești sigur că vrei să adaugi acest pacient?">Adaugă pacientul</button>
                         {{ form_end(form) }}
                     </div>
                 </div>
@@ -58,5 +63,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('assets/medici/main.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/pacienti/main.js') }}"></script>
 {% endblock %}

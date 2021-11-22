@@ -1,0 +1,64 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Vizualizare pacient{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/pacienti/main.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="top-bar sticky-top">
+        <div class="w-100">
+            <div class="px-4 py-2 border bg-light">Vizualizare pacient</div>
+        </div>
+    </div>
+
+    <div class="content container min-vh-content">
+        <div class="container-fluid dashboard-container">
+            <div class="row">
+                <div class="col-xl border bg-light dashboard-section  m-2">
+                    <div class="p-4 row">
+                        <table class="table table-borderless">
+                            <tbody>
+                            <tr>
+                                <th>Prenume</th>
+                                <th>{{ pacient.prenumePacient }}</th>
+                            </tr>
+                            <tr>
+                                <th>Nume</th>
+                                <th>{{ pacient.numePacient }}</th>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <th>{{ pacient.email }}</th>
+                            </tr>
+                            <tr>
+                                <th>CNP</th>
+                                <th>{{ pacient.cnp }}</th>
+                            </tr>
+                            <tr>
+                                <th>Adresa</th>
+                                <th>{{ pacient.adresa }}</th>
+                            </tr>
+                            <tr>
+                                <th>Asigurare</th>
+                                {% if pacient.asigurare == 1 %}
+                                    <th class="text-success">DA</th>
+                                {% else %}
+                                    <th class="text-danger">NU</th>
+                                {% endif %}
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('assets/medici/main.js') }}"></script>
+{% endblock %}

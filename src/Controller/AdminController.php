@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Medic;
 use App\Form\AddMedicFormType;
 use App\Form\EditMedicFormType;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,7 +28,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/medic/adaugare", name="add_medic")
+     * @Route("/medic/adaugare-medic", name="add_medic")
      */
     public function addMedic(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
@@ -47,10 +48,14 @@ class AdminController extends AbstractController
                 $medic->setRoles(['ROLE_ADMIN', 'ROLE_MEDIC']);
             else
                 $medic->setRoles(['ROLE_MEDIC']);
-            $this->entityManager->persist($medic);
-            $this->entityManager->flush();
-            $this->addFlash('success', 'Medicul a fost adăugat cu succes.');
-            return new RedirectResponse($this->generateUrl('view_medici'));
+            try {
+                $this->entityManager->persist($medic);
+                $this->entityManager->flush();
+                $this->addFlash('success', 'Medicul a fost adăugat cu succes.');
+                return new RedirectResponse($this->generateUrl('view_medici'));
+            } catch (UniqueConstraintViolationException $e) {
+                $this->addFlash('error', 'Există deja un medic cu același email/cnp.');
+            }
         }
 
         return $this->render('medic/add_medic.html.twig', [
@@ -59,7 +64,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/medic/actualizare/{id}", name="edit_medic")
+     * @Route("/medic/actualizare-medic/{id}", name="edit_medic")
      */
     public function editMedic(Medic $medic, Request $request): Response
     {
@@ -72,10 +77,14 @@ class AdminController extends AbstractController
                 $medic->setRoles(['ROLE_ADMIN', 'ROLE_MEDIC']);
             else
                 $medic->setRoles(['ROLE_MEDIC']);
-            $this->entityManager->persist($medic);
-            $this->entityManager->flush();
-            $this->addFlash('success', 'Medicul a fost actualizat cu succes.');
-            return new RedirectResponse($this->generateUrl('view_medici'));
+            try {
+                $this->entityManager->persist($medic);
+                $this->entityManager->flush();
+                $this->addFlash('success', 'Medicul a fost actualizat cu succes.');
+                return new RedirectResponse($this->generateUrl('view_medici'));
+            } catch (UniqueConstraintViolationException $e) {
+                $this->addFlash('error', 'Există deja un medic cu același email/cnp.');
+            }
         }
 
         return $this->render('medic/edit_medic.html.twig', [
@@ -85,7 +94,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/medic/stergere/{id}", name="delete_medic")
+     * @Route("/medic/stergere-medic/{id}", name="delete_medic")
      */
     public function deleteMedic(Medic $medic): JsonResponse
     {

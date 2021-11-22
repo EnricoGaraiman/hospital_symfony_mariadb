@@ -41,7 +41,7 @@ class Pacient implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=13, unique=true)
      */
     private $cnp;
 
