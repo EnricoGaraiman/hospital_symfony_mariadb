@@ -35,8 +35,8 @@ function ajaxProccessingStage() {
             // On success refresh table
             $('.loader').remove()
             $('#medici-view-table tbody').html('');
-            tableTemplate(data['medici']);
-            paginationTemplate(parseInt(data['pagina']), parseInt(data['numberOfPages']), parseInt(data['numberOfRows']));
+            tableTemplate(data['medici'], data['offset'], data['maxResult'], data['offset']);
+            paginationTemplate(parseInt(data['pagina']), parseInt(data['numberOfPages']), parseInt(data['numberOfRows']), data['offset'], data['medici'].length);
             paginationProccessing();
         },
         error: function (jqXhr, textStatus, errorMessage) {
@@ -75,7 +75,7 @@ function paginationProccessing() {
 }
 
 // Dinamic pagination
-function paginationTemplate(page, numberOfPages, numberOfRows) {
+function paginationTemplate(page, numberOfPages, numberOfRows, offset, numberOfResult) {
     let html = ``;
     if (page > 1) {
         html += `<li class="page-item">
@@ -102,7 +102,7 @@ function paginationTemplate(page, numberOfPages, numberOfRows) {
     }
     $('.pagination').append(html);
     if(numberOfRows > 0) {
-        $('.number-of-results').append(`${numberOfRows} rezultate`);
+        $('.number-of-results').append(`Listare de la ${offset + 1} la ${offset + numberOfResult} dintr-un total de ${numberOfRows} rezultate.`);
     }
     else {
         $('.number-of-results').append(`Niciun rezultat`);
@@ -110,11 +110,11 @@ function paginationTemplate(page, numberOfPages, numberOfRows) {
 }
 
 // Generate table with users
-function tableTemplate(medici) {
+function tableTemplate(medici, offset) {
     let html = ``;
     $.each(medici, function( index, medic ) {
         html += `<tr>
-                        <td>${medic['id']}</td>
+                        <td>${offset + index + 1}</td>
                         <td>${medic['prenumeMedic']}</td>
                         <td>${medic['numeMedic']}</td>
                         <td>${medic['email']}</td>

@@ -9,8 +9,7 @@ $(document).ready(function () {
     })
 
     $('.btn-filters-delete').on('click', function (e) {
-        $('#pacienti_filters_user').val('');
-        $('#pacienti_filters_asigurare').val('').trigger("change");
+        $('#medicament-search').val('');
         ajaxProccessingStage();
     })
 
@@ -22,21 +21,21 @@ $(document).ready(function () {
 // Send request with ajax
 function ajaxProccessingStage() {
     $.ajax({
-        url: '/medic/vizualizare-pacienti-json',
+        url: '/medic/vizualizare-medicamente-json',
         dataType: 'json',
         data: getData(),
         beforeSend: function () {
             $('body').append('<div class="loader"></div>')
-            $('#medici-view-table tbody').html('');
+            $('#medicamente-view-table tbody').html('');
             $('.pagination').html('');
             $('.number-of-results').html('');
         },
         success: function (data) {
             // On success refresh table
             $('.loader').remove()
-            $('#pacienti-view-table tbody').html('');
-            tableTemplate(data['pacienti'], data['offset'], data['maxResult'], data['offset']);
-            paginationTemplate(parseInt(data['pagina']), parseInt(data['numberOfPages']), parseInt(data['numberOfRows']), data['offset'], data['pacienti'].length);
+            $('#medicamente-view-table-view-table tbody').html('');
+            tableTemplate(data['medicamente'], data['offset'], data['maxResult'], data['offset']);
+            paginationTemplate(parseInt(data['pagina']), parseInt(data['numberOfPages']), parseInt(data['numberOfRows']), data['offset'], data['medicamente'].length);
             paginationProccessing();
         },
         error: function (jqXhr, textStatus, errorMessage) {
@@ -51,8 +50,7 @@ function getData() {
     let searchParams = new URLSearchParams(url.search);
     let data = {};
     data['filtre'] = {
-        'pacient': $('#pacienti_filters_user').val() !== null ? $('#pacienti_filters_user').val() : '',
-        'asigurare': $('#pacienti_filters_asigurare').val() !== null ? $('#pacienti_filters_asigurare').val() : ''
+        'medicament': $('#medicament-search').val() !== null ? $('#medicament-search').val() : '',
     };
     data['itemi'] = $('.items-per-page-select option:selected').val();
     data['pagina'] = searchParams.get('pagina');
@@ -109,38 +107,20 @@ function paginationTemplate(page, numberOfPages, numberOfRows, offset, numberOfR
     }
 }
 
-// Generate table with users
-function tableTemplate(pacienti, offset) {
+// Generate table with medicaments
+function tableTemplate(medicamente, offset) {
     let html = ``;
-    $.each(pacienti, function( index, pacient ) {
+    $.each(medicamente, function( index, medicament ) {
         html += `<tr>
                         <td>${offset + index + 1}</td>
-                        <td>${pacient['prenumePacient']}</td>
-                        <td>${pacient['numePacient']}</td>
-                        <td>${pacient['email']}</td>
-                        <td>${pacient['cnp']}</td>
+                        <td>${medicament['denumire']}</td>
                         <td>`
-        if(pacient['adresa'] !== null) {
-            html += `${pacient['adresa']}`;
-        }
-        else {
-            html += `<span class="badge rounded-pill bg-warning">Nespecificată</span>`;
-        }
-        html += `</td><td>`
-        if(pacient['asigurare'] == 1) {
-            html += `<span class="badge rounded-pill bg-success">DA</span>`;
-        }
-        else {
-            html += `<span class="badge rounded-pill bg-danger">NU</span>`;
-        }
-        html += `</td><td>`
         html += `
-                <a href="/medic/vizualizare-pacient/${pacient['id']}" class="btn-view"><i class="fas fa-eye"></i></a>
-                <a href="/medic/actualizare-pacient/${pacient['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>
-                <a class="btn-delete" onclick="deleteMedic('${pacient['id']}')"><i class="fas fa-trash"></i></a>
+                <a href="/medic/actualizare-medicament/${medicament['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>
+                <a class="btn-delete" onclick="deleteMedicament('${medicament['id']}')"><i class="fas fa-trash"></i></a>
             `;
         html += `</td>
                     </tr>`;
     });
-    $('#pacienti-view-table').children('tbody').append(html);
+    $('#medicamente-view-table').children('tbody').append(html);
 }

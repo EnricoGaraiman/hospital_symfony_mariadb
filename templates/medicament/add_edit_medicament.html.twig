@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {% if app.request.get('_route') == 'add_medicament' %}
+        Adăugare medicament
+    {% elseif app.request.get('_route') == 'edit_medicament' %}
+        Actualizare medicament
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="top-bar sticky-top">
+        <div class="w-100">
+            {% if app.request.get('_route') == 'add_medicament' %}
+                <div class="px-4 py-2 border bg-light">Adăugare medicament</div>
+            {% elseif app.request.get('_route') == 'edit_medicament' %}
+                <div class="px-4 py-2 border bg-light">Actualizare medicament</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="content container min-vh-content">
+        <div class="container-fluid dashboard-container">
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger m-2" role="alert">{{ message }}</div>
+            {% endfor %}
+            <div class="row">
+                <div class="col-xl border bg-light dashboard-section  m-2">
+                    <div class="p-4 row">
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                {{ form_row(form.denumire) }}
+                            </div>
+                        </div>
+                        {% if app.request.get('_route') == 'add_medicament' %}
+                            <button type="submit" class="button button-width float-end request-confirmation" message="Ești sigur că vrei să adaugi acest medicament?">Adaugă medicamentul</button>
+                        {% elseif app.request.get('_route') == 'edit_medicament' %}
+                            <button type="submit" class="button button-width float-end request-confirmation" message="Ești sigur că vrei să actualizezi acest medicament?">Actualizează medicamentul</button>
+                        {% endif %}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Medic;
+use App\Entity\Medicament;
 use App\Entity\Pacient;
 use App\Form\AddPacientFormType;
 use App\Form\EditPacientFormType;
+use App\Form\MedicamentFormType;
 use App\Form\MediciFiltersType;
 use App\Form\MedicProfileFormType;
 use App\Form\PacientiFiltersType;
+use App\Repository\MedicamentRepository;
 use App\Repository\MedicRepository;
 use App\Repository\PacientRepository;
 use App\Services\JsonSerializerService;
@@ -89,6 +92,7 @@ class MedicController extends AbstractController
         $response['pagina'] = $request->get('pagina');
         $response['numberOfPages'] = ceil($numberOfMedici / intval($request->get('itemi')));
         $response['numberOfRows'] = $numberOfMedici;
+        $response['offset'] = ((int)$request->get('pagina') - 1) * (int)$request->get('itemi');
         return new JsonResponse($response);
     }
 
@@ -120,13 +124,14 @@ class MedicController extends AbstractController
     public function viewPacientiJson(Request $request, JsonSerializerService $jsonSerializerService, PacientRepository $pacientRepository): Response
     {
         $response = [];
-        $medici = $pacientRepository->getPacientiByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), false);
-        $numberOfMedici = $pacientRepository->getPacientiByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), true);
-        $mediciArray = $jsonSerializerService->jsonSerializer($medici, ['id','prenumePacient', 'numePacient', 'email', 'cnp', 'adresa', 'asigurare']);
-        $response['pacienti'] = $mediciArray;
+        $pacienti = $pacientRepository->getPacientiByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), false);
+        $numberOfPacienti = $pacientRepository->getPacientiByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), true);
+        $pacientiArray = $jsonSerializerService->jsonSerializer($pacienti, ['id','prenumePacient', 'numePacient', 'email', 'cnp', 'adresa', 'asigurare']);
+        $response['pacienti'] = $pacientiArray;
         $response['pagina'] = $request->get('pagina');
-        $response['numberOfPages'] = ceil($numberOfMedici / intval($request->get('itemi')));
-        $response['numberOfRows'] = $numberOfMedici;
+        $response['numberOfPages'] = ceil($numberOfPacienti / intval($request->get('itemi')));
+        $response['numberOfRows'] = $numberOfPacienti;
+        $response['offset'] = ((int)$request->get('pagina') - 1) * (int)$request->get('itemi');
         return new JsonResponse($response);
     }
 
@@ -207,6 +212,86 @@ class MedicController extends AbstractController
             $this->entityManager->remove($pacient);
             $this->entityManager->flush();
             return new JsonResponse(['type'=>'success', 'message'=>'Pacientul a fost șters cu succes.']);
+        }
+        catch (\Exception $exception) {
+            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
+        }
+    }
+
+    /**
+     * @Route("/medic/vizualizare-medicamente", name="view_medicamente")
+     */
+    public function viewMedicamente(): Response
+    {
+        return $this->render('medicament/view_medicamente.html.twig');
+    }
+
+    /**
+     * @Route("/medic/vizualizare-medicamente-json", name="view_medicamente_json")
+     */
+    public function viewMedicamenteJson(Request $request, JsonSerializerService $jsonSerializerService, MedicamentRepository $medicamentRepository): Response
+    {
+        $response = [];
+        $medicamente = $medicamentRepository->getMedicamenteByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), false);
+        $numberOfMedicamente = $medicamentRepository->getMedicamenteByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), true);
+        $medicamenteArray = $jsonSerializerService->jsonSerializer($medicamente, ['id','denumire']);
+        $response['medicamente'] = $medicamenteArray;
+        $response['pagina'] = $request->get('pagina');
+        $response['numberOfPages'] = ceil($numberOfMedicamente / intval($request->get('itemi')));
+        $response['numberOfRows'] = $numberOfMedicamente;
+        $response['offset'] = ((int)$request->get('pagina') - 1) * (int)$request->get('itemi');
+        return new JsonResponse($response);
+    }
+
+    /**
+     * @Route("/medic/adaugare-medicament", name="add_medicament")
+     */
+    public function addMedicament(Request $request): Response
+    {
+        $form = $this->createForm(MedicamentFormType::class, new Medicament());
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($form->getData());
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Medicamentul a fost adăugat cu succes.');
+            return new RedirectResponse($this->generateUrl('view_medicamente'));
+        }
+
+        return $this->render('medicament/add_edit_medicament.html.twig', [
+            'form'=>$form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/medic/actualizare-medicament/{id}", name="edit_medicament")
+     */
+    public function editMedicament(Medicament $medicament, Request $request): Response
+    {
+        $form = $this->createForm(MedicamentFormType::class, $medicament);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($form->getData());
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Medicamentul a fost actualizat cu succes.');
+            return new RedirectResponse($this->generateUrl('view_medicamente'));
+        }
+
+        return $this->render('medicament/add_edit_medicament.html.twig', [
+            'form'=>$form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/medic/stergere-medicament/{id}", name="delete_medicament")
+     */
+    public function deleteMedicament(Medicament $medicament): JsonResponse
+    {
+        try{
+            $this->entityManager->remove($medicament);
+            $this->entityManager->flush();
+            return new JsonResponse(['type'=>'success', 'message'=>'Medicamentul a fost șters cu succes.']);
         }
         catch (\Exception $exception) {
             return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);

@@ -34,13 +34,13 @@
                 </ul>
             </li>
             <li>
-                <a href="#medicamentelink" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Medicamente</a>
-                <ul class="collapse list-unstyled" id="medicamentelink">
+                <a href="#medicamentelink" data-toggle="collapse" aria-expanded="{{ app.request.get('_route') == 'view_medicamente' or app.request.get('_route') == 'add_medicament' ? 'true' : 'false' }}" class="dropdown-toggle">Medicamente</a>
+                <ul class="collapse list-unstyled {{ app.request.get('_route') == 'view_medicamente' or app.request.get('_route') == 'add_medicament' ? 'show' }}" id="medicamentelink">
                     <li>
-                        <a href="#">Vizualizare medicamente</a>
+                        <a href="{{ path('view_medicamente') }}" {{ app.request.get('_route') == 'view_medicamente' ? 'class="active"' }}>Vizualizare medicamente</a>
                     </li>
                     <li>
-                        <a href="#">Adăugare medicament</a>
+                        <a href="{{ path('add_medicament') }}" {{ app.request.get('_route') == 'add_medicament' ? 'class="active"' }}>Adăugare medicament</a>
                     </li>
                 </ul>
             </li>

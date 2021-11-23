@@ -19,6 +19,24 @@ class MedicamentRepository extends ServiceEntityRepository
         parent::__construct($registry, Medicament::class);
     }
 
+    public function getMedicamenteByFilters($filters, $items, $page, $getNumber)
+    {
+        $qb = $this->createQueryBuilder('m');
+        // filters
+        $qb->andWhere('m.denumire LIKE :search')
+            ->setParameter('search', '%'. $filters['medicament'] . '%');
+
+        if($getNumber === true) {
+            $qb->select('count(distinct(m.id))');
+            return $qb->getQuery()->getSingleScalarResult();
+        }
+
+        $qb->orderBy('m.id', 'DESC')
+            ->setFirstResult(((int)$page - 1) * (int)$items)
+            ->setMaxResults((int)$items);
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Medicament[] Returns an array of Medicament objects
     //  */
