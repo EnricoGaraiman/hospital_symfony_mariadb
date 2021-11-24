@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Medic;
 use App\Form\AddMedicFormType;
 use App\Form\EditMedicFormType;
+use App\Services\EmailServices;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,9 +23,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class AdminController extends AbstractController
 {
     private $entityManager;
+    private $emailServices;
 
-    public function __construct(EntityManagerInterface $entityManager) {
+    public function __construct(EntityManagerInterface $entityManager, EmailServices $emailServices) {
         $this->entityManager = $entityManager;
+        $this->emailServices = $emailServices;
     }
 
     /**
@@ -52,6 +55,9 @@ class AdminController extends AbstractController
                 $this->entityManager->persist($medic);
                 $this->entityManager->flush();
                 $this->addFlash('success', 'Medicul a fost adăugat cu succes.');
+                $this->emailServices->sendEmail($medic->getEmail(), 'Bine ai venit pe platformă', 'emails/new_user.html.twig', [
+                    'password' => $form->get('plainPassword')->getData()
+                ]);
                 return new RedirectResponse($this->generateUrl('view_medici'));
             } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash('error', 'Există deja un medic cu același email/cnp.');
