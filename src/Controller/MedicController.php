@@ -11,6 +11,7 @@ use App\Form\MedicamentFormType;
 use App\Form\MediciFiltersType;
 use App\Form\MedicProfileFormType;
 use App\Form\PacientiFiltersType;
+use App\Repository\ConsultatieRepository;
 use App\Repository\MedicamentRepository;
 use App\Repository\MedicRepository;
 use App\Repository\PacientRepository;
@@ -303,4 +304,123 @@ class MedicController extends AbstractController
             return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
         }
     }
+
+    /**
+     * @Route("/medic/vizualizare-consultatii", name="view_consultatii")
+     */
+    public function viewConsultatii(): Response
+    {
+//        $filters = $this->createForm(ConsultatiiFiltersType::class);
+
+        return $this->render('consultatie/view_consultatii.html.twig', [
+//            'filters'=>$filters->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/medic/vizualizare-consultatii-json", name="view_consultatii_json")
+     */
+    public function viewConsultatiiiJson(Request $request, JsonSerializerService $jsonSerializerService, ConsultatieRepository $consultatieRepository): Response
+    {
+        $response = [];
+        $consultatii = $consultatieRepository->getConsultatiiByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), false);
+        $numberOfConsultatii = $consultatieRepository->getConsultatiiByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), true);
+        $consultatiiArray = $jsonSerializerService->jsonSerializer($consultatii, [
+            'id','data', 'medic' => ['prenumeMedic', 'numeMedic'], 'pacient' => ['prenumePacient', 'numePacient'],
+            'diagnostic', 'medicament' => ['id', 'denumire'], 'dozaMedicament'
+        ]);
+        $response['consultatii'] = $consultatiiArray;
+        $response['pagina'] = $request->get('pagina');
+        $response['numberOfPages'] = ceil($numberOfConsultatii / intval($request->get('itemi')));
+        $response['numberOfRows'] = $numberOfConsultatii;
+        $response['offset'] = ((int)$request->get('pagina') - 1) * (int)$request->get('itemi');
+        dd($response);
+        return new JsonResponse($response);
+    }
+//
+//    /**
+//     * @Route("/medic/vizualizare-pacient/{id}", name="view_pacient")
+//     */
+//    public function viewPacient(Pacient $pacient): Response
+//    {
+//        return $this->render('pacient/view_pacient.html.twig', [
+//            'pacient'=>$pacient,
+//        ]);
+//    }
+//
+//    /**
+//     * @Route("/medic/adaugare-pacient", name="add_pacient")
+//     */
+//    public function addPacient(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
+//    {
+//        $form = $this->createForm(AddPacientFormType::class, new Pacient());
+//
+//        $form->handleRequest($request);
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $pacient = $form->getData();
+//            $pacient->setPassword(
+//                $userPasswordHasherInterface->hashPassword(
+//                    $pacient,
+//                    $form->get('plainPassword')->getData()
+//                )
+//            );
+//            $pacient->setIsVerified(true)
+//                ->setRoles(['ROLE_PACIENT']);
+//            try {
+//                $this->entityManager->persist($pacient);
+//                $this->entityManager->flush();
+//                $this->addFlash('success', 'Pacientul a fost adăugat cu succes.');
+//                $this->emailServices->sendEmail($pacient->getEmail(), 'Bine ai venit pe platformă', 'emails/new_user.html.twig', [
+//                    'password' => $form->get('plainPassword')->getData()
+//                ]);
+//                return new RedirectResponse($this->generateUrl('view_pacienti'));
+//            } catch (UniqueConstraintViolationException $e) {
+//                $this->addFlash('error', 'Există deja un pacient cu același email/cnp.');
+//            }
+//        }
+//
+//        return $this->render('pacient/add_pacient.html.twig', [
+//            'form'=>$form->createView(),
+//        ]);
+//    }
+//
+//    /**
+//     * @Route("/medic/actualizare-pacient/{id}", name="edit_pacient")
+//     */
+//    public function editPacient(Pacient $pacient, Request $request): Response
+//    {
+//        $form = $this->createForm(EditPacientFormType::class, $pacient);
+//
+//        $form->handleRequest($request);
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $pacient = $form->getData();
+//            try {
+//                $this->entityManager->persist($pacient);
+//                $this->entityManager->flush();
+//                $this->addFlash('success', 'Pacientul a fost actualizat cu succes.');
+//                return new RedirectResponse($this->generateUrl('view_pacienti'));
+//            } catch (UniqueConstraintViolationException $e) {
+//                $this->addFlash('error', 'Există deja un pacient cu același email/cnp.');
+//            }
+//        }
+//
+//        return $this->render('pacient/edit_pacient.html.twig', [
+//            'form'=>$form->createView(),
+//        ]);
+//    }
+//
+//    /**
+//     * @Route("/medic/stergere-pacient/{id}", name="delete_pacient")
+//     */
+//    public function deleteMedic(Pacient $pacient): JsonResponse
+//    {
+//        try{
+//            $this->entityManager->remove($pacient);
+//            $this->entityManager->flush();
+//            return new JsonResponse(['type'=>'success', 'message'=>'Pacientul a fost șters cu succes.']);
+//        }
+//        catch (\Exception $exception) {
+//            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
+//        }
+//    }
 }

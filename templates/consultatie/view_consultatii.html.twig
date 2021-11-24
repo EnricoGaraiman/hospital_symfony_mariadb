@@ -1,11 +1,11 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Vizualizare medici{% endblock %}
+{% block title %}Vizualizare consultații{% endblock %}
 
 {% block body %}
     <div class="top-bar sticky-top">
         <div class="w-100">
-            <div class="px-4 py-2 border bg-light">Vizualizare medici</div>
+            <div class="px-4 py-2 border bg-light">Vizualizare consultații</div>
         </div>
     </div>
 
@@ -25,7 +25,7 @@
                                 {{ form_row(filters.user) }}
                             </div>
                             <div class="col-lg-6">
-                                {{ form_row(filters.administrator) }}
+                                {{ form_row(filters.asigurare) }}
                             </div>
                         </div>
                         <button type="submit" class="button button-width float-end btn-filters-search">Caută</button>
@@ -51,22 +51,21 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                {% if is_granted('ROLE_ADMIN') %}
-                                    <a href="{{ path('add_medic') }}" class="button button-width float-end btn-add-new">Adaugă medic</a>
-                                {% endif %}
+                                <a href="{{ path('add_pacient') }}" class="button button-width float-end btn-add-new">Adaugă pacient</a>
                             </div>
                         </div>
 
                         <div class="table-responsive-xl disable-scrollbars">
-                            <table class="table table-hover" id="medici-view-table">
+                            <table class="table table-hover" id="pacienti-view-table">
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Prenume</th>
                                     <th scope="col">Nume</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Specializare</th>
-                                    <th scope="col">Administrator</th>
+                                    <th scope="col">CNP</th>
+                                    <th scope="col">Adresă</th>
+                                    <th scope="col">Asigurare</th>
                                     <th scope="col">Acțiuni</th>
                                 </tr>
                                 </thead>
@@ -93,14 +92,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        let isGranted = false;
-        let userId = -1;
-        {% if is_granted('ROLE_ADMIN') %}
-            isGranted = true;
-            userId = {{ app.user.id }};
-        {% endif %}
-    </script>
-    <script type="text/javascript" src="{{ asset('assets/medici/table.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/medici/main.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/pacienti/table.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/pacienti/main.js') }}"></script>
 {% endblock %}

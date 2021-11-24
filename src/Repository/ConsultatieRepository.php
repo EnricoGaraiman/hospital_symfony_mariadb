@@ -19,6 +19,29 @@ class ConsultatieRepository extends ServiceEntityRepository
         parent::__construct($registry, Consultatie::class);
     }
 
+    public function getConsultatiiByFilters($filters, $items, $page, $getNumber)
+    {
+        $qb = $this->createQueryBuilder('c');
+        // filters
+//        $qb->andWhere($qb->expr()->orX(
+//            $qb->expr()->like('m.prenumeMedic', ':search'),
+//            $qb->expr()->like('m.numeMedic', ':search'),
+//            $qb->expr()->like('m.email', ':search'),
+//            $qb->expr()->like('m.specializare', ':search')
+//        ))
+//            ->setParameter('search', '%'. $filters['medic'] . '%');
+
+        if($getNumber === true) {
+            $qb->select('count(distinct(c.id))');
+            return $qb->getQuery()->getSingleScalarResult();
+        }
+
+        $qb->orderBy('c.data', 'DESC')
+            ->setFirstResult(((int)$page - 1) * (int)$items)
+            ->setMaxResults((int)$items);
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Consultatie[] Returns an array of Consultatie objects
     //  */
