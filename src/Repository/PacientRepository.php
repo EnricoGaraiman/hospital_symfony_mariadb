@@ -66,6 +66,19 @@ class PacientRepository extends ServiceEntityRepository implements PasswordUpgra
         return $qb->getQuery()->getResult();
     }
 
+    public function getPacientiForConsultatie($search)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('CONCAT(p.prenumePacient, \' \', p.numePacient, \' \', p.cnp) as text', 'p.id')
+            ->orWhere('p.prenumePacient LIKE :search')
+            ->setParameter('search', '%' . $search . '%')
+            ->orWhere('p.numePacient LIKE :search')
+            ->setParameter('search', '%' . $search . '%')
+            ->orWhere('p.cnp LIKE :search')
+            ->setParameter('search', '%' . $search . '%');
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Pacient[] Returns an array of Pacient objects
     //  */

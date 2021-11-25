@@ -37,6 +37,15 @@ class MedicamentRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function getMedicamenteForConsultatie($search)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('m.denumire as text', 'm.id')
+            ->where('m.denumire LIKE :search')
+            ->setParameter('search', '%' . $search . '%');
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Medicament[] Returns an array of Medicament objects
     //  */

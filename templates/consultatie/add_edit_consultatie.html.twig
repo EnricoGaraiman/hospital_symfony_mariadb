@@ -1,0 +1,63 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {% if app.request.get('_route') == 'add_consultatie' %}
+        Adăugare consultație
+    {% elseif app.request.get('_route') == 'edit_consultatie' %}
+        Actualizare consultație
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="top-bar sticky-top">
+        <div class="w-100">
+            {% if app.request.get('_route') == 'add_consultatie' %}
+                <div class="px-4 py-2 border bg-light">Adăugare consultație</div>
+            {% elseif app.request.get('_route') == 'edit_consultatie' %}
+                <div class="px-4 py-2 border bg-light">Actualizare consultație</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="content container min-vh-content">
+        <div class="container-fluid dashboard-container">
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger m-2" role="alert">{{ message }}</div>
+            {% endfor %}
+            <div class="row">
+                <div class="col-xl border bg-light dashboard-section  m-2">
+                    <div class="p-4 row">
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-lg-6">
+                                {{ form_row(form.pacient) }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ form_row(form.medicament) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                {{ form_row(form.dozaMedicament) }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ form_row(form.diagnostic) }}
+                            </div>
+                        </div>
+                        {% if app.request.get('_route') == 'add_consultatie' %}
+                            <button type="submit" class="button button-width float-end request-confirmation" message="Ești sigur că vrei să adaugi acestă consultație?">Adaugă consultația</button>
+                        {% elseif app.request.get('_route') == 'edit_consultatie' %}
+                            <button type="submit" class="button button-width float-end request-confirmation" message="Ești sigur că vrei să actualizezi acestă consultație?">Actualizează consultația</button>
+                        {% endif %}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     <script type="text/javascript" src="{{ asset('assets/consultatie/main.js') }}"></script>
+ {% endblock %}

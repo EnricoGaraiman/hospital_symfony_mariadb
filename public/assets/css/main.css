@@ -186,6 +186,10 @@ a:focus {
     width: auto;!important;
 }
 
+.select2-container {
+    margin-bottom: 30px;
+}
+
 /* ---------------------------------------------------
     SELECT2 STYLE CHANGES
 ----------------------------------------------------- */

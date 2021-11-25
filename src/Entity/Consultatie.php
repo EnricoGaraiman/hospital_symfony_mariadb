@@ -19,7 +19,7 @@ class Consultatie
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}))
      */
     private $data;
 
@@ -56,12 +56,12 @@ class Consultatie
         return $this->id;
     }
 
-    public function getData(): ?\DateTimeInterface
+    public function getData(): ?\DateTime
     {
         return $this->data;
     }
 
-    public function setData(\DateTimeInterface $data): self
+    public function setData(\DateTime $data): self
     {
         $this->data = $data;
 

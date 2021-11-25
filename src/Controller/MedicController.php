@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Consultatie;
 use App\Entity\Medic;
 use App\Entity\Medicament;
 use App\Entity\Pacient;
 use App\Form\AddPacientFormType;
+use App\Form\ConsultatieFormType;
 use App\Form\EditPacientFormType;
 use App\Form\MedicamentFormType;
 use App\Form\MediciFiltersType;
@@ -334,7 +336,6 @@ class MedicController extends AbstractController
         $response['numberOfPages'] = ceil($numberOfConsultatii / intval($request->get('itemi')));
         $response['numberOfRows'] = $numberOfConsultatii;
         $response['offset'] = ((int)$request->get('pagina') - 1) * (int)$request->get('itemi');
-        dd($response);
         return new JsonResponse($response);
     }
 //
@@ -348,41 +349,48 @@ class MedicController extends AbstractController
 //        ]);
 //    }
 //
-//    /**
-//     * @Route("/medic/adaugare-pacient", name="add_pacient")
-//     */
-//    public function addPacient(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
-//    {
-//        $form = $this->createForm(AddPacientFormType::class, new Pacient());
-//
-//        $form->handleRequest($request);
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $pacient = $form->getData();
-//            $pacient->setPassword(
-//                $userPasswordHasherInterface->hashPassword(
-//                    $pacient,
-//                    $form->get('plainPassword')->getData()
-//                )
-//            );
-//            $pacient->setIsVerified(true)
-//                ->setRoles(['ROLE_PACIENT']);
-//            try {
-//                $this->entityManager->persist($pacient);
-//                $this->entityManager->flush();
-//                $this->addFlash('success', 'Pacientul a fost adăugat cu succes.');
-//                $this->emailServices->sendEmail($pacient->getEmail(), 'Bine ai venit pe platformă', 'emails/new_user.html.twig', [
-//                    'password' => $form->get('plainPassword')->getData()
-//                ]);
-//                return new RedirectResponse($this->generateUrl('view_pacienti'));
-//            } catch (UniqueConstraintViolationException $e) {
-//                $this->addFlash('error', 'Există deja un pacient cu același email/cnp.');
-//            }
-//        }
-//
-//        return $this->render('pacient/add_pacient.html.twig', [
-//            'form'=>$form->createView(),
-//        ]);
-//    }
+    /**
+     * @Route("/medic/adaugare-consultatie", name="add_consultatie")
+     */
+    public function addConsultatie(Request $request): Response
+    {
+        $form = $this->createForm(ConsultatieFormType::class, new Consultatie());
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $consultatie = $form->getData();
+            $consultatie->setMedic($this->getUser());
+            $consultatie->setData((new \DateTime()));
+            $this->entityManager->persist($consultatie);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Consultația a fost adăugată cu succes.');
+            // Send email to pacient to see results
+            $this->emailServices->sendEmail($consultatie->getPacient()->getEmail(), 'Rezultate consultatie', 'emails/consultatie.html.twig', [
+                'consultatie' => $consultatie
+            ]);
+            return new RedirectResponse($this->generateUrl('view_consultatii'));
+        }
+
+        return $this->render('consultatie/add_edit_consultatie.html.twig', [
+            'form'=>$form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/medic/pacienti-consultatie", name="get_pacienti_for_consultatie")
+     */
+    public function getPacientiForConsultatie(Request $request, PacientRepository $pacientRepository): JsonResponse
+    {
+        return new JsonResponse($pacientRepository->getPacientiForConsultatie($request->get('search')));
+    }
+
+    /**
+     * @Route("/medic/medicamente-consultatie", name="get_medicamente_for_consultatie")
+     */
+    public function getMedicamenteiForConsultatie(Request $request, MedicamentRepository $medicamentRepository): JsonResponse
+    {
+        return new JsonResponse($medicamentRepository->getMedicamenteForConsultatie($request->get('search')));
+    }
 //
 //    /**
 //     * @Route("/medic/actualizare-pacient/{id}", name="edit_pacient")

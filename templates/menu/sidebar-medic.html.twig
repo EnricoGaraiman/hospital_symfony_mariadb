@@ -23,13 +23,13 @@
                 </ul>
             </li>
             <li>
-                <a href="#consultatiilink" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Consultații</a>
-                <ul class="collapse list-unstyled" id="consultatiilink">
+                <a href="#consultatiilink" data-toggle="collapse" aria-expanded="{{ app.request.get('_route') == 'view_consultatii' or app.request.get('_route') == 'add_consultatie' ? 'true' : 'false' }}" class="dropdown-toggle">Consultații</a>
+                <ul class="collapse list-unstyled {{ app.request.get('_route') == 'view_consultatii' or app.request.get('_route') == 'add_consultatie' ? 'show' }}" id="consultatiilink">
                     <li>
-                        <a href="#">Vizualizare consultații</a>
+                        <a href="{{ path('view_consultatii') }}" {{ app.request.get('_route') == 'view_consultatii' ? 'class="active"' }}">Vizualizare consultații</a>
                     </li>
                     <li>
-                        <a href="#">Adăugare consultație</a>
+                        <a href="{{ path('add_consultatie') }}" {{ app.request.get('_route') == 'add_consultatie' ? 'class="active"' }}">Adăugare consultație</a>
                     </li>
                 </ul>
             </li>
