@@ -8,6 +8,7 @@ use App\Entity\Medicament;
 use App\Entity\Pacient;
 use App\Form\AddPacientFormType;
 use App\Form\ConsultatieFormType;
+use App\Form\ConsultatiiFiltersType;
 use App\Form\EditPacientFormType;
 use App\Form\MedicamentFormType;
 use App\Form\MediciFiltersType;
@@ -312,10 +313,10 @@ class MedicController extends AbstractController
      */
     public function viewConsultatii(): Response
     {
-//        $filters = $this->createForm(ConsultatiiFiltersType::class);
+        $filters = $this->createForm(ConsultatiiFiltersType::class);
 
         return $this->render('consultatie/view_consultatii.html.twig', [
-//            'filters'=>$filters->createView(),
+            'filters'=>$filters->createView(),
         ]);
     }
 
@@ -390,6 +391,14 @@ class MedicController extends AbstractController
     public function getMedicamenteiForConsultatie(Request $request, MedicamentRepository $medicamentRepository): JsonResponse
     {
         return new JsonResponse($medicamentRepository->getMedicamenteForConsultatie($request->get('search')));
+    }
+
+    /**
+     * @Route("/medic/medici-consultatie", name="get_medici_for_consultatie")
+     */
+    public function getMediciForConsultatie(Request $request, MedicRepository $medicRepository): JsonResponse
+    {
+        return new JsonResponse($medicRepository->getMediciForConsultatie($request->get('search')));
     }
 //
 //    /**

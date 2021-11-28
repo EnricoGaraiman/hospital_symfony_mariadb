@@ -266,4 +266,9 @@ class Medic implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->prenumeMedic . ' ' . $this->numeMedic;
+    }
 }

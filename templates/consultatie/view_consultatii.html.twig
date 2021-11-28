@@ -22,10 +22,21 @@
                         {{ form_start(filters) }}
                         <div class="row">
                             <div class="col-lg-6">
-                                {{ form_row(filters.user) }}
+                                {{ form_row(filters.medic) }}
                             </div>
                             <div class="col-lg-6">
-                                {{ form_row(filters.asigurare) }}
+                                {{ form_row(filters.pacient) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                {{ form_row(filters.medicament) }}
+                            </div>
+                            <div class="col-lg-3">
+                                {{ form_row(filters.data1) }}
+                            </div>
+                            <div class="col-lg-3">
+                                {{ form_row(filters.data2) }}
                             </div>
                         </div>
                         <button type="submit" class="button button-width float-end btn-filters-search">Caută</button>
@@ -51,21 +62,21 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <a href="{{ path('add_pacient') }}" class="button button-width float-end btn-add-new">Adaugă pacient</a>
+                                <a href="{{ path('add_consultatie') }}" class="button button-width float-end btn-add-new">Adaugă consultație</a>
                             </div>
                         </div>
 
                         <div class="table-responsive-xl disable-scrollbars">
-                            <table class="table table-hover" id="pacienti-view-table">
+                            <table class="table table-hover" id="consultatii-view-table">
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Prenume</th>
-                                    <th scope="col">Nume</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">CNP</th>
-                                    <th scope="col">Adresă</th>
-                                    <th scope="col">Asigurare</th>
+                                    <th scope="col">Data</th>
+                                    <th scope="col">Medic</th>
+                                    <th scope="col">Pacient</th>
+                                    <th scope="col">Medicament</th>
+                                    <th scope="col">Doza medicament</th>
+                                    <th scope="col">Diagnostic</th>
                                     <th scope="col">Acțiuni</th>
                                 </tr>
                                 </thead>
@@ -92,6 +103,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('assets/pacienti/table.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/pacienti/main.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/consultatie/table.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/consultatie/main.js') }}"></script>
 {% endblock %}

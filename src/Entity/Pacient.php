@@ -308,7 +308,7 @@ class Pacient implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString()
     {
-        return $this->numePacient;
+        return $this->prenumePacient . ' ' . $this->numePacient;
     }
 
 }

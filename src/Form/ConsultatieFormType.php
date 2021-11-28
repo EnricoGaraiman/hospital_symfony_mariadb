@@ -40,7 +40,7 @@ class ConsultatieFormType extends AbstractType
                 'row_attr' => ['class' => 'input'],
                 'label' => 'Doză medicament',
                 'attr' => [
-                    'placeholder'=>'Setează doza medicamentului'
+                    'placeholder'=>'Setează doza medicamentului [ml]'
                 ],
                 'invalid_message' => '',
                 'empty_data' => 0,

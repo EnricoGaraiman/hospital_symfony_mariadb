@@ -68,6 +68,19 @@ class MedicRepository extends ServiceEntityRepository implements PasswordUpgrade
         return $qb->getQuery()->getResult();
     }
 
+    public function getMediciForConsultatie($search)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('CONCAT(m.prenumeMedic, \' \', m.numeMedic, \' \', m.email) as text', 'm.id')
+            ->orWhere('m.prenumeMedic LIKE :search')
+            ->setParameter('search', '%' . $search . '%')
+            ->orWhere('m.numeMedic LIKE :search')
+            ->setParameter('search', '%' . $search . '%')
+            ->orWhere('m.email LIKE :search')
+            ->setParameter('search', '%' . $search . '%');
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Medic[] Returns an array of Medic objects
     //  */

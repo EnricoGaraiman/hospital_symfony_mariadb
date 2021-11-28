@@ -9,8 +9,11 @@ $(document).ready(function () {
     })
 
     $('.btn-filters-delete').on('click', function (e) {
-        $('#pacienti_filters_user').val('');
-        $('#pacienti_filters_asigurare').val('').trigger("change");
+        $('#consultatii_filters_medic').val('').trigger("change");
+        $('#consultatii_filters_pacient').val('').trigger("change");
+        $('#consultatii_filters_medicament').val('').trigger("change");
+        $('#consultatii_filters_data1').val('');
+        $('#consultatii_filters_data2').val('');
         ajaxProccessingStage();
     })
 
@@ -22,21 +25,21 @@ $(document).ready(function () {
 // Send request with ajax
 function ajaxProccessingStage() {
     $.ajax({
-        url: '/medic/vizualizare-pacienti-json',
+        url: '/medic/vizualizare-consultatii-json',
         dataType: 'json',
         data: getData(),
         beforeSend: function () {
             $('body').append('<div class="loader"></div>')
-            $('#pacienti-view-table tbody').html('');
+            $('#consultatii-view-table tbody').html('');
             $('.pagination').html('');
             $('.number-of-results').html('');
         },
         success: function (data) {
             // On success refresh table
             $('.loader').remove()
-            $('#pacienti-view-table tbody').html('');
-            tableTemplate(data['pacienti'], data['offset'], data['maxResult'], data['offset']);
-            paginationTemplate(parseInt(data['pagina']), parseInt(data['numberOfPages']), parseInt(data['numberOfRows']), data['offset'], data['pacienti'].length);
+            $('#consultatii-view-table tbody').html('');
+            tableTemplate(data['consultatii'], data['offset'], data['maxResult'], data['offset']);
+            paginationTemplate(parseInt(data['pagina']), parseInt(data['numberOfPages']), parseInt(data['numberOfRows']), data['offset'], data['consultatii'].length);
             paginationProccessing();
         },
         error: function (jqXhr, textStatus, errorMessage) {
@@ -51,8 +54,11 @@ function getData() {
     let searchParams = new URLSearchParams(url.search);
     let data = {};
     data['filtre'] = {
-        'pacient': $('#pacienti_filters_user').val() !== null ? $('#pacienti_filters_user').val() : '',
-        'asigurare': $('#pacienti_filters_asigurare').val() !== null ? $('#pacienti_filters_asigurare').val() : ''
+        'medic': $('#consultatii_filters_medic').val() !== null ? $('#consultatii_filters_medic').val() : '',
+        'pacient': $('#consultatii_filters_pacient').val() !== null ? $('#consultatii_filters_pacient').val() : '',
+        'medicament': $('#consultatii_filters_medicament').val() !== null ? $('#consultatii_filters_medicament').val() : '',
+        'data1': $('#consultatii_filters_data1').val() !== null ? $('#consultatii_filters_data1').val() : '',
+        'data2': $('#consultatii_filters_data2').val() !== null ? $('#consultatii_filters_data2').val() : '',
     };
     data['itemi'] = $('.items-per-page-select option:selected').val();
     data['pagina'] = searchParams.get('pagina');
@@ -110,37 +116,43 @@ function paginationTemplate(page, numberOfPages, numberOfRows, offset, numberOfR
 }
 
 // Generate table with users
-function tableTemplate(pacienti, offset) {
+function tableTemplate(consultatii, offset) {
     let html = ``;
-    $.each(pacienti, function( index, pacient ) {
+    $.each(consultatii, function( index, consultatie ) {
         html += `<tr>
                         <td>${offset + index + 1}</td>
-                        <td>${pacient['prenumePacient']}</td>
-                        <td>${pacient['numePacient']}</td>
-                        <td>${pacient['email']}</td>
-                        <td>${pacient['cnp']}</td>
+                        <td>${moment(consultatie['data']['timestamp'] * 1000).format('DD/MM/YYYY')}</td>
+                        <td>${consultatie['medic']['prenumeMedic']} ${consultatie['medic']['numeMedic']}</td>
+                        <td>${consultatie['pacient']['prenumePacient']} ${consultatie['pacient']['numePacient']}</td>
                         <td>`
-        if(pacient['adresa'] !== null) {
-            html += `${pacient['adresa']}`;
+        if(consultatie['medicament'] !== null) {
+            html += `${consultatie['medicament']['denumire']}`;
         }
         else {
-            html += `<span class="badge rounded-pill bg-warning">Nespecificată</span>`;
+            html += `<span class="badge rounded-pill bg-warning">Nu există</span>`;
         }
         html += `</td><td>`
-        if(pacient['asigurare'] == 1) {
-            html += `<span class="badge rounded-pill bg-success">DA</span>`;
+        if(consultatie['dozaMedicament'] !== 0) {
+            html += `${consultatie['dozaMedicament']}`;
         }
         else {
-            html += `<span class="badge rounded-pill bg-danger">NU</span>`;
+            html += `<span class="badge rounded-pill bg-warning">Nu există</span>`;
+        }
+        html += `</td><td>`
+        if(consultatie['diagnostic'] !== '') {
+            html += `${consultatie['diagnostic']}`;
+        }
+        else {
+            html += `<span class="badge rounded-pill bg-warning">Nespecificat</span>`;
         }
         html += `</td><td>`
         html += `
-                <a href="/medic/vizualizare-pacient/${pacient['id']}" class="btn-view"><i class="fas fa-eye"></i></a>
-                <a href="/medic/actualizare-pacient/${pacient['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>
-                <a class="btn-delete" onclick="deleteMedic('${pacient['id']}')"><i class="fas fa-trash"></i></a>
+                <a href="/medic/vizualizare-consultatie/${consultatie['id']}" class="btn-view"><i class="fas fa-eye"></i></a>
+                <a href="/medic/actualizare-consultatie/${consultatie['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>
+                <a class="btn-delete" onclick="deleteConsultatie('${consultatie['id']}')"><i class="fas fa-trash"></i></a>
             `;
         html += `</td>
                     </tr>`;
     });
-    $('#pacienti-view-table').children('tbody').append(html);
+    $('#consultatii-view-table').children('tbody').append(html);
 }

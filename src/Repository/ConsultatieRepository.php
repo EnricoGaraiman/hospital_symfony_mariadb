@@ -23,13 +23,26 @@ class ConsultatieRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('c');
         // filters
-//        $qb->andWhere($qb->expr()->orX(
-//            $qb->expr()->like('m.prenumeMedic', ':search'),
-//            $qb->expr()->like('m.numeMedic', ':search'),
-//            $qb->expr()->like('m.email', ':search'),
-//            $qb->expr()->like('m.specializare', ':search')
-//        ))
-//            ->setParameter('search', '%'. $filters['medic'] . '%');
+        if($filters['medic'] !== ''){
+            $qb->andWhere('c.medic = :medic')
+            ->setParameter('medic', $filters['medic']);
+        }
+        if($filters['pacient'] !== ''){
+            $qb->andWhere('c.pacient = :pacient')
+                ->setParameter('pacient', $filters['pacient']);
+        }
+        if($filters['medicament'] !== ''){
+            $qb->andWhere('c.medicament = :medicament')
+                ->setParameter('medicament', $filters['medicament']);
+        }
+        if($filters['data1'] !== ''){
+            $qb->andWhere('c.data >= :data1')
+                ->setParameter('data1', $filters['data1']);
+        }
+        if($filters['data2'] !== ''){
+            $qb->andWhere('c.data <= :data2')
+                ->setParameter('data2', $filters['data2']);
+        }
 
         if($getNumber === true) {
             $qb->select('count(distinct(c.id))');
