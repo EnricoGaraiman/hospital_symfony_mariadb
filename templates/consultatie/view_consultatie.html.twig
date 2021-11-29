@@ -1,0 +1,67 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Vizualizare consultație{% endblock %}
+
+{% block body %}
+    <div class="top-bar sticky-top">
+        <div class="w-100">
+            <div class="px-4 py-2 border bg-light">Vizualizare consultație</div>
+        </div>
+    </div>
+
+    <div class="content container min-vh-content">
+        <div class="container-fluid dashboard-container">
+            <div class="row">
+                <div class="col-xl border bg-light dashboard-section  m-2">
+                    <div class="p-4 row">
+                        <table class="table table-borderless">
+                            <tbody>
+                            <tr>
+                                <th>Data consultației</th>
+                                <td>{{ consultatie.data|date('d/m/yy') }}</td>
+                            </tr>
+                            <tr>
+                                <th rowspan="3">Medic</th>
+                                <td><span class="bold-span">Nume și prenume:</span> {{ consultatie.medic.prenumeMedic }} {{ consultatie.medic.numeMedic }}</td>
+                            </tr>
+                            <tr>
+                                <td><span class="bold-span">Specializare:</span> {{ consultatie.medic.specializare }}</td>
+                            </tr>
+                            <tr>
+                                <td><span class="bold-span">Email:</span> {{ consultatie.medic.email }}</td>
+                            </tr>
+                            <tr>
+                                <th rowspan="3">Pacient</th>
+                                <td><span class="bold-span">Nume și prenume:</span> {{ consultatie.pacient.prenumePacient }} {{ consultatie.pacient.numePacient }}</td>
+                            </tr>
+                            <tr>
+                                <td><span class="bold-span">CNP:</span> {{ consultatie.pacient.cnp }}</td>
+                            </tr>
+                            <tr>
+                                <td><span class="bold-span">Email:</span> {{ consultatie.pacient.email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Medicament</th>
+                                <td>{{ consultatie.medicament.denumire }}</td>
+                            </tr>
+                            <tr>
+                                <th>Doză medicament</th>
+                                <td>{{ consultatie.dozaMedicament }} ml</td>
+                            </tr>
+                            <tr>
+                                <th>Diagnostic</th>
+                                <td>{{ consultatie.diagnostic }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('assets/medici/main.js') }}"></script>
+{% endblock %}

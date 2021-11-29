@@ -2,9 +2,9 @@
 
 <p>Rezultatele consultației din data {{ context.consultatie.data|date('d/m/y')}} sunt următoarele: </p>
 
-<p>Diagnostic: {{ context.consultatie.diagnostic }}</p>
-<p>Medicament: {{ context.consultatie.medicament.denumire }}</p>
-<p>Doza medicament: {{ context.consultatie.dozaMedicament }} ml</p>
+<p>Diagnostic: {{ context.consultatie.diagnostic ? context.consultatie.diagnostic : 'Nu există' }}</p>
+<p>Medicament: {{ context.consultatie.medicament ? context.consultatie.medicament.denumire : 'Nu există' }}</p>
+<p>Doza medicament: {{ context.consultatie.dozaMedicament ? context.consultatie.dozaMedicament : 'Nu există' }} ml</p>
 
 <p>Consultație realizată de medicul {{ context.consultatie.medic.prenumeMedic }} {{ context.consultatie.medic.numeMedic }}.</p>
 <p>O zi bună!</p>

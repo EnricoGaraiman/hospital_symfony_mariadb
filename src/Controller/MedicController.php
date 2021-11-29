@@ -339,17 +339,17 @@ class MedicController extends AbstractController
         $response['offset'] = ((int)$request->get('pagina') - 1) * (int)$request->get('itemi');
         return new JsonResponse($response);
     }
-//
-//    /**
-//     * @Route("/medic/vizualizare-pacient/{id}", name="view_pacient")
-//     */
-//    public function viewPacient(Pacient $pacient): Response
-//    {
-//        return $this->render('pacient/view_pacient.html.twig', [
-//            'pacient'=>$pacient,
-//        ]);
-//    }
-//
+
+    /**
+     * @Route("/medic/vizualizare-consultatie/{id}", name="view_consultatie")
+     */
+    public function viewConsultatie(Consultatie $consultatie): Response
+    {
+        return $this->render('consultatie/view_consultatie.html.twig', [
+            'consultatie'=>$consultatie,
+        ]);
+    }
+
     /**
      * @Route("/medic/adaugare-consultatie", name="add_consultatie")
      */
@@ -400,44 +400,45 @@ class MedicController extends AbstractController
     {
         return new JsonResponse($medicRepository->getMediciForConsultatie($request->get('search')));
     }
-//
-//    /**
-//     * @Route("/medic/actualizare-pacient/{id}", name="edit_pacient")
-//     */
-//    public function editPacient(Pacient $pacient, Request $request): Response
-//    {
-//        $form = $this->createForm(EditPacientFormType::class, $pacient);
-//
-//        $form->handleRequest($request);
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $pacient = $form->getData();
-//            try {
-//                $this->entityManager->persist($pacient);
-//                $this->entityManager->flush();
-//                $this->addFlash('success', 'Pacientul a fost actualizat cu succes.');
-//                return new RedirectResponse($this->generateUrl('view_pacienti'));
-//            } catch (UniqueConstraintViolationException $e) {
-//                $this->addFlash('error', 'Există deja un pacient cu același email/cnp.');
-//            }
-//        }
-//
-//        return $this->render('pacient/edit_pacient.html.twig', [
-//            'form'=>$form->createView(),
-//        ]);
-//    }
-//
-//    /**
-//     * @Route("/medic/stergere-pacient/{id}", name="delete_pacient")
-//     */
-//    public function deleteMedic(Pacient $pacient): JsonResponse
-//    {
-//        try{
-//            $this->entityManager->remove($pacient);
-//            $this->entityManager->flush();
-//            return new JsonResponse(['type'=>'success', 'message'=>'Pacientul a fost șters cu succes.']);
-//        }
-//        catch (\Exception $exception) {
-//            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
-//        }
-//    }
+
+    /**
+     * @Route("/medic/actualizare-consultatie/{id}", name="edit_consultatie")
+     */
+    public function editConsultatie(Consultatie $consultatie, Request $request): Response
+    {
+        $form = $this->createForm(ConsultatieFormType::class, $consultatie);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $consultatie = $form->getData();
+            $consultatie->setMedic($this->getUser());
+            $this->entityManager->persist($consultatie);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Consultația a fost actualizată cu succes.');
+            // Send email to pacient to see results
+            $this->emailServices->sendEmail($consultatie->getPacient()->getEmail(), 'Rezultate consultatie', 'emails/consultatie.html.twig', [
+                'consultatie' => $consultatie
+            ]);
+            return new RedirectResponse($this->generateUrl('view_consultatii'));
+        }
+
+        return $this->render('consultatie/add_edit_consultatie.html.twig', [
+            'form'=>$form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/medic/stergere-consultatie/{id}", name="delete_consultatie")
+     */
+    public function deleteConsultatie(Consultatie $consultatie): JsonResponse
+    {
+        try{
+            $this->entityManager->remove($consultatie);
+            $this->entityManager->flush();
+            return new JsonResponse(['type'=>'success', 'message'=>'Consultația a fost ștearsă cu succes.']);
+        }
+        catch (\Exception $exception) {
+            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
+        }
+    }
 }
