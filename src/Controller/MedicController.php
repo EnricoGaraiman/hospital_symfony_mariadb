@@ -293,7 +293,7 @@ class MedicController extends AbstractController
     /**
      * @Route("/medic/vizualizare-consultatii-json", name="view_consultatii_json")
      */
-    public function viewConsultatiiiJson(Request $request, JsonSerializerService $jsonSerializerService, ConsultatieRepository $consultatieRepository): Response
+    public function viewConsultatiiJson(Request $request, JsonSerializerService $jsonSerializerService, ConsultatieRepository $consultatieRepository): Response
     {
         $response = [];
         $consultatii = $consultatieRepository->getConsultatiiByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), false);

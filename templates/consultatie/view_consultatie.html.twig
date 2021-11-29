@@ -42,15 +42,15 @@
                             </tr>
                             <tr>
                                 <th>Medicament</th>
-                                <td>{{ consultatie.medicament.denumire }}</td>
+                                <td>{{ consultatie.medicament ? consultatie.medicament.denumire : 'Nu există' }}</td>
                             </tr>
                             <tr>
                                 <th>Doză medicament</th>
-                                <td>{{ consultatie.dozaMedicament }} ml</td>
+                                <td>{{ consultatie.dozaMedicament ? consultatie.dozaMedicament + 'ml' : 'Nu există' }}</td>
                             </tr>
                             <tr>
                                 <th>Diagnostic</th>
-                                <td>{{ consultatie.diagnostic }}</td>
+                                <td>{{ consultatie.diagnostic ? consultatie.diagnostic : 'Nu există' }}</td>
                             </tr>
                             </tbody>
                         </table>

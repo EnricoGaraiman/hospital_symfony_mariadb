@@ -21,7 +21,7 @@ class EmailServices
     public function sendEmail($to, $subject, $template, $context)
     {
         $email = (new TemplatedEmail())
-            ->from(new Address('enrico.healthy.clinic@gmail.com', 'Enrico Garaiman'))
+            ->from(new Address('enrico.healthy.clinic@gmail.com', 'Enrico Healthy Clinic'))
             ->to($to)
             ->subject($subject)
             ->htmlTemplate($template)

@@ -55,6 +55,23 @@ class ConsultatieRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function getConsultatiiForPacient($idPacient, $items, $page, $getNumber)
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->where('c.pacient =:idPacient ')
+            ->setParameter('idPacient', $idPacient);
+
+        if($getNumber === true) {
+            $qb->select('count(distinct(c.id))');
+            return $qb->getQuery()->getSingleScalarResult();
+        }
+
+        $qb->orderBy('c.data', 'DESC')
+            ->setFirstResult(((int)$page - 1) * (int)$items)
+            ->setMaxResults((int)$items);
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Consultatie[] Returns an array of Consultatie objects
     //  */
