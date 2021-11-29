@@ -103,6 +103,12 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        let isGranted = false;
+        {% if is_granted('ROLE_ADMIN') %}
+        isGranted = true;
+        {% endif %}
+    </script>
     <script type="text/javascript" src="{{ asset('assets/consultatie/table.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/consultatie/main.js') }}"></script>
 {% endblock %}

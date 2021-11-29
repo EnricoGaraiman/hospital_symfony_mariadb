@@ -214,21 +214,6 @@ class MedicController extends AbstractController
     }
 
     /**
-     * @Route("/medic/stergere-pacient/{id}", name="delete_pacient")
-     */
-    public function deleteMedic(Pacient $pacient): JsonResponse
-    {
-        try{
-            $this->entityManager->remove($pacient);
-            $this->entityManager->flush();
-            return new JsonResponse(['type'=>'success', 'message'=>'Pacientul a fost șters cu succes.']);
-        }
-        catch (\Exception $exception) {
-            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
-        }
-    }
-
-    /**
      * @Route("/medic/vizualizare-medicamente", name="view_medicamente")
      */
     public function viewMedicamente(): Response
@@ -291,21 +276,6 @@ class MedicController extends AbstractController
         return $this->render('medicament/add_edit_medicament.html.twig', [
             'form'=>$form->createView(),
         ]);
-    }
-
-    /**
-     * @Route("/medic/stergere-medicament/{id}", name="delete_medicament")
-     */
-    public function deleteMedicament(Medicament $medicament): JsonResponse
-    {
-        try{
-            $this->entityManager->remove($medicament);
-            $this->entityManager->flush();
-            return new JsonResponse(['type'=>'success', 'message'=>'Medicamentul a fost șters cu succes.']);
-        }
-        catch (\Exception $exception) {
-            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
-        }
     }
 
     /**
@@ -425,20 +395,5 @@ class MedicController extends AbstractController
         return $this->render('consultatie/add_edit_consultatie.html.twig', [
             'form'=>$form->createView(),
         ]);
-    }
-
-    /**
-     * @Route("/medic/stergere-consultatie/{id}", name="delete_consultatie")
-     */
-    public function deleteConsultatie(Consultatie $consultatie): JsonResponse
-    {
-        try{
-            $this->entityManager->remove($consultatie);
-            $this->entityManager->flush();
-            return new JsonResponse(['type'=>'success', 'message'=>'Consultația a fost ștearsă cu succes.']);
-        }
-        catch (\Exception $exception) {
-            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
-        }
     }
 }

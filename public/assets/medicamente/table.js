@@ -116,9 +116,10 @@ function tableTemplate(medicamente, offset) {
                         <td>${medicament['denumire']}</td>
                         <td>`
         html += `
-                <a href="/medic/actualizare-medicament/${medicament['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>
-                <a class="btn-delete" onclick="deleteMedicament('${medicament['id']}')"><i class="fas fa-trash"></i></a>
-            `;
+                <a href="/medic/actualizare-medicament/${medicament['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>`;
+        if(isGranted === true) {
+            html += `<a class="btn-delete" onclick="deleteMedicament('${medicament['id']}')"><i class="fas fa-trash"></i></a>`;
+        }
         html += `</td>
                     </tr>`;
     });

@@ -134,11 +134,12 @@ function tableTemplate(pacienti, offset) {
             html += `<span class="badge rounded-pill bg-danger">NU</span>`;
         }
         html += `</td><td>`
-        html += `
+            html += `
                 <a href="/medic/vizualizare-pacient/${pacient['id']}" class="btn-view"><i class="fas fa-eye"></i></a>
-                <a href="/medic/actualizare-pacient/${pacient['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>
-                <a class="btn-delete" onclick="deleteMedic('${pacient['id']}')"><i class="fas fa-trash"></i></a>
-            `;
+                <a href="/medic/actualizare-pacient/${pacient['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>`;
+            if(isGranted === true) {
+                html += `<a class="btn-delete" onclick="deleteMedic('${pacient['id']}')"><i class="fas fa-trash"></i></a>`;
+            }
         html += `</td>
                     </tr>`;
     });

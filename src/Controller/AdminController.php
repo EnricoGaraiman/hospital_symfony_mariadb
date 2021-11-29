@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Consultatie;
 use App\Entity\Medic;
+use App\Entity\Medicament;
+use App\Entity\Pacient;
 use App\Form\AddMedicFormType;
 use App\Form\EditMedicFormType;
 use App\Services\EmailServices;
@@ -108,6 +111,51 @@ class AdminController extends AbstractController
             $this->entityManager->remove($medic);
             $this->entityManager->flush();
             return new JsonResponse(['type'=>'success', 'message'=>'Medicul a fost șters cu succes.']);
+        }
+        catch (\Exception $exception) {
+            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
+        }
+    }
+
+    /**
+     * @Route("/medic/stergere-medicament/{id}", name="delete_medicament")
+     */
+    public function deleteMedicament(Medicament $medicament): JsonResponse
+    {
+        try{
+            $this->entityManager->remove($medicament);
+            $this->entityManager->flush();
+            return new JsonResponse(['type'=>'success', 'message'=>'Medicamentul a fost șters cu succes.']);
+        }
+        catch (\Exception $exception) {
+            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
+        }
+    }
+
+    /**
+     * @Route("/medic/stergere-pacient/{id}", name="delete_pacient")
+     */
+    public function deletePacient(Pacient $pacient): JsonResponse
+    {
+        try{
+            $this->entityManager->remove($pacient);
+            $this->entityManager->flush();
+            return new JsonResponse(['type'=>'success', 'message'=>'Pacientul a fost șters cu succes.']);
+        }
+        catch (\Exception $exception) {
+            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
+        }
+    }
+
+    /**
+     * @Route("/medic/stergere-consultatie/{id}", name="delete_consultatie")
+     */
+    public function deleteConsultatie(Consultatie $consultatie): JsonResponse
+    {
+        try{
+            $this->entityManager->remove($consultatie);
+            $this->entityManager->flush();
+            return new JsonResponse(['type'=>'success', 'message'=>'Consultația a fost ștearsă cu succes.']);
         }
         catch (\Exception $exception) {
             return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);

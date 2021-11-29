@@ -148,9 +148,10 @@ function tableTemplate(consultatii, offset) {
         html += `</td><td>`
         html += `
                 <a href="/medic/vizualizare-consultatie/${consultatie['id']}" class="btn-view"><i class="fas fa-eye"></i></a>
-                <a href="/medic/actualizare-consultatie/${consultatie['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>
-                <a class="btn-delete" onclick="deleteConsultatie('${consultatie['id']}')"><i class="fas fa-trash"></i></a>
-            `;
+                <a href="/medic/actualizare-consultatie/${consultatie['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>`;
+        if(isGranted === true) {
+            html += `<a class="btn-delete" onclick="deleteConsultatie('${consultatie['id']}')"><i class="fas fa-trash"></i></a>`;
+        }
         html += `</td>
                     </tr>`;
     });
