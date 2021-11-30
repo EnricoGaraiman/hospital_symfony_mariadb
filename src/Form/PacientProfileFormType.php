@@ -45,7 +45,8 @@ class PacientProfileFormType extends AbstractType
             ])
             ->add('adresa', TextType::class, [
                 'row_attr' => ['class' => 'input'],
-                'label' => 'Adresă'
+                'label' => 'Adresă',
+                'required' => false
             ])
         ;
     }

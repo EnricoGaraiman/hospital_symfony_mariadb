@@ -1,54 +1,55 @@
 <nav id="sidebar">
     <div class="sticky-top sidebar-container">
         <div class="sidebar-header">
-            <h3>Tabloul de bord</h3>
+            <img src="{{ asset('assets/images/logo-white.png') }}" alt="Logo" class="rounded mx-auto d-block mb-3" height="70px" width="70px">
+            <h3 class="text-center">Tabloul de bord</h3>
         </div>
 
         <ul class="list-unstyled components">
             <li {{ app.request.get('_route') == 'dashboard' ? 'class="active"' }}>
-                <a href="{{ path('dashboard') }}">Prezentare generală</a>
+                <a href="{{ path('dashboard') }}"><i class="fa fa-chart-line"></i> Prezentare generală</a>
             </li>
             <li>
-                <a href="#medicilink" data-toggle="collapse" aria-expanded="{{ app.request.get('_route') == 'view_medici' or app.request.get('_route') == 'add_medic' ? 'true' : 'false' }}" class="dropdown-toggle">Medici</a>
+                <a href="#medicilink" data-toggle="collapse" aria-expanded="{{ app.request.get('_route') == 'view_medici' or app.request.get('_route') == 'add_medic' ? 'true' : 'false' }}" class="dropdown-toggle"><i class="fa fa-user-md"></i> Medici</a>
                 <ul class="collapse list-unstyled {{ app.request.get('_route') == 'view_medici' or app.request.get('_route') == 'add_medic' ? 'show' }}" id="medicilink">
                     <li>
-                        <a href="{{ path('view_medici') }}" {{ app.request.get('_route') == 'view_medici' ? 'class="active"' }}>Vizualizare medici</a>
+                        <a href="{{ path('view_medici') }}" {{ app.request.get('_route') == 'view_medici' ? 'class="active"' }}><i class="fa fa-eye"></i> Vizualizare medici</a>
                     </li>
                     <li>
-                        <a href="{{ path('add_medic') }}" {{ app.request.get('_route') == 'add_medic' ? 'class="active"' }}>Adăugare medic</a>
+                        <a href="{{ path('add_medic') }}" {{ app.request.get('_route') == 'add_medic' ? 'class="active"' }}><i class="fa fa-user-plus"></i> Adăugare medic</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#pacientilink" data-toggle="collapse" aria-expanded="{{ app.request.get('_route') == 'view_pacienti' or app.request.get('_route') == 'add_pacient' ? 'true' : 'false' }}" class="dropdown-toggle">Pacienți</a>
+                <a href="#pacientilink" data-toggle="collapse" aria-expanded="{{ app.request.get('_route') == 'view_pacienti' or app.request.get('_route') == 'add_pacient' ? 'true' : 'false' }}" class="dropdown-toggle"><i class="fa fa-user-injured"></i> Pacienți</a>
                 <ul class="collapse list-unstyled {{ app.request.get('_route') == 'view_pacienti' or app.request.get('_route') == 'add_pacient' ? 'show' }}" id="pacientilink">
                     <li>
-                        <a href="{{ path('view_pacienti') }}" {{ app.request.get('_route') == 'view_pacienti' ? 'class="active"' }}>Vizualizare pacienți</a>
+                        <a href="{{ path('view_pacienti') }}" {{ app.request.get('_route') == 'view_pacienti' ? 'class="active"' }}><i class="fa fa-eye"></i> Vizualizare pacienți</a>
                     </li>
                     <li>
-                        <a href="{{ path('add_pacient') }}"  {{ app.request.get('_route') == 'add_pacient' ? 'class="active"' }}>Adăugare pacient</a>
+                        <a href="{{ path('add_pacient') }}"  {{ app.request.get('_route') == 'add_pacient' ? 'class="active"' }}><i class="fa fa-user-plus"></i> Adăugare pacient</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#consultatiilink" data-toggle="collapse" aria-expanded="{{ app.request.get('_route') == 'view_consultatii' or app.request.get('_route') == 'add_consultatie' ? 'true' : 'false' }}" class="dropdown-toggle">Consultații</a>
+                <a href="#consultatiilink" data-toggle="collapse" aria-expanded="{{ app.request.get('_route') == 'view_consultatii' or app.request.get('_route') == 'add_consultatie' ? 'true' : 'false' }}" class="dropdown-toggle"><i class="fa fa-procedures"></i> Consultații</a>
                 <ul class="collapse list-unstyled {{ app.request.get('_route') == 'view_consultatii' or app.request.get('_route') == 'add_consultatie' ? 'show' }}" id="consultatiilink">
                     <li>
-                        <a href="{{ path('view_consultatii') }}" {{ app.request.get('_route') == 'view_consultatii' ? 'class="active"' }}">Vizualizare consultații</a>
+                        <a href="{{ path('view_consultatii') }}" {{ app.request.get('_route') == 'view_consultatii' ? 'class="active"' }}"><i class="fa fa-eye"></i> Vizualizare consultații</a>
                     </li>
                     <li>
-                        <a href="{{ path('add_consultatie') }}" {{ app.request.get('_route') == 'add_consultatie' ? 'class="active"' }}">Adăugare consultație</a>
+                        <a href="{{ path('add_consultatie') }}" {{ app.request.get('_route') == 'add_consultatie' ? 'class="active"' }}"><i class="fa fa-plus-circle"></i> Adăugare consultație</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#medicamentelink" data-toggle="collapse" aria-expanded="{{ app.request.get('_route') == 'view_medicamente' or app.request.get('_route') == 'add_medicament' ? 'true' : 'false' }}" class="dropdown-toggle">Medicamente</a>
+                <a href="#medicamentelink" data-toggle="collapse" aria-expanded="{{ app.request.get('_route') == 'view_medicamente' or app.request.get('_route') == 'add_medicament' ? 'true' : 'false' }}" class="dropdown-toggle"><i class="fa fa-pills"></i> Medicamente</a>
                 <ul class="collapse list-unstyled {{ app.request.get('_route') == 'view_medicamente' or app.request.get('_route') == 'add_medicament' ? 'show' }}" id="medicamentelink">
                     <li>
-                        <a href="{{ path('view_medicamente') }}" {{ app.request.get('_route') == 'view_medicamente' ? 'class="active"' }}>Vizualizare medicamente</a>
+                        <a href="{{ path('view_medicamente') }}" {{ app.request.get('_route') == 'view_medicamente' ? 'class="active"' }}><i class="fa fa-eye"></i> Vizualizare medicamente</a>
                     </li>
                     <li>
-                        <a href="{{ path('add_medicament') }}" {{ app.request.get('_route') == 'add_medicament' ? 'class="active"' }}>Adăugare medicament</a>
+                        <a href="{{ path('add_medicament') }}" {{ app.request.get('_route') == 'add_medicament' ? 'class="active"' }}><i class="fa fa-plus-circle"></i> Adăugare medicament</a>
                     </li>
                 </ul>
             </li>

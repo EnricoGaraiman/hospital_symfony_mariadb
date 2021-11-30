@@ -1,15 +1,16 @@
 <nav id="sidebar">
     <div class="sticky-top sidebar-container">
         <div class="sidebar-header">
-            <h3>Tabloul de bord</h3>
+            <img src="{{ asset('assets/images/logo-white.png') }}" alt="Logo" class="rounded mx-auto d-block mb-3" height="70px" width="70px">
+            <h3 class="text-center">Tabloul de bord</h3>
         </div>
 
         <ul class="list-unstyled components">
             <li {{ app.request.get('_route') == 'dashboard_pacient' ? 'class="active"' }}>
-                <a href="{{ path('dashboard_pacient') }}">Prezentare generală</a>
+                <a href="{{ path('dashboard_pacient') }}"><i class="fa fa-chart-line"></i> Prezentare generală</a>
             </li>
             <li {{ app.request.get('_route') == 'pacient_view_consultatii' ? 'class="active"' }}>
-                <a href="{{ path('pacient_view_consultatii') }}">Vizualizare consultații</a>
+                <a href="{{ path('pacient_view_consultatii') }}"><i class="fa fa-procedures"></i> Vizualizare consultații</a>
             </li>
         </ul>
     </div>
