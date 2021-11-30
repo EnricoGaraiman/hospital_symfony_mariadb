@@ -194,6 +194,11 @@ a:focus {
     margin-bottom: 30px;
 }
 
+.required::after {
+    content: '  *';
+    color: var(--red);
+}
+
 /* ---------------------------------------------------
     SELECT2 STYLE CHANGES
 ----------------------------------------------------- */

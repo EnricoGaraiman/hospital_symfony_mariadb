@@ -38,7 +38,7 @@ class ConsultatieFormType extends AbstractType
             ])
             ->add('dozaMedicament', NumberType::class, [
                 'row_attr' => ['class' => 'input'],
-                'label' => 'Doză medicament',
+                'label' => 'Doză medicament [ml]',
                 'attr' => [
                     'placeholder'=>'Setează doza medicamentului [ml]'
                 ],

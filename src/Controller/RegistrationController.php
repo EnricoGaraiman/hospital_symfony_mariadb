@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Medic;
 use App\Entity\Pacient;
 use App\Form\RegistrationFormType;
 use App\Repository\PacientRepository;
@@ -44,6 +45,11 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
+            if($this->entityManager->getRepository(Medic::class)->findOneBy(['email' => $user->getEmail()]) !== null) {
+                $this->addFlash('error', 'Există deja un cont cu acest email.');
+                return $this->redirectToRoute('app_register');
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

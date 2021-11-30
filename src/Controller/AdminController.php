@@ -113,7 +113,7 @@ class AdminController extends AbstractController
             return new JsonResponse(['type'=>'success', 'message'=>'Medicul a fost șters cu succes.']);
         }
         catch (\Exception $exception) {
-            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
+            return new JsonResponse(['type'=>'error', 'message'=>'A apărut o problemă']);
         }
     }
 
@@ -128,7 +128,7 @@ class AdminController extends AbstractController
             return new JsonResponse(['type'=>'success', 'message'=>'Medicamentul a fost șters cu succes.']);
         }
         catch (\Exception $exception) {
-            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
+            return new JsonResponse(['type'=>'error', 'message'=>'A apărut o problemă']);
         }
     }
 
@@ -143,7 +143,7 @@ class AdminController extends AbstractController
             return new JsonResponse(['type'=>'success', 'message'=>'Pacientul a fost șters cu succes.']);
         }
         catch (\Exception $exception) {
-            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
+            return new JsonResponse(['type'=>'error', 'message'=>'A apărut o problemă']);
         }
     }
 
@@ -158,7 +158,7 @@ class AdminController extends AbstractController
             return new JsonResponse(['type'=>'success', 'message'=>'Consultația a fost ștearsă cu succes.']);
         }
         catch (\Exception $exception) {
-            return new JsonResponse(['type'=>'danger', 'message'=>'A apărut o problemă']);
+            return new JsonResponse(['type'=>'error', 'message'=>'A apărut o problemă']);
         }
     }
 }

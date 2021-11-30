@@ -162,6 +162,10 @@ class MedicController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $pacient = $form->getData();
+            if($this->entityManager->getRepository(Medic::class)->findOneBy(['email' => $pacient->getEmail()]) !== null) {
+                $this->addFlash('error', 'Există deja un cont cu acest email.');
+                return $this->redirectToRoute('add_pacient');
+            }
             $pacient->setPassword(
                 $userPasswordHasherInterface->hashPassword(
                     $pacient,
