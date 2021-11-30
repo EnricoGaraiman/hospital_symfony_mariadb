@@ -43,7 +43,6 @@ class ConsultatieFormType extends AbstractType
                     'placeholder'=>'Setează doza medicamentului [ml]'
                 ],
                 'invalid_message' => '',
-                'empty_data' => 0,
                 'required' => false
             ])
             ->add('diagnostic', TextType::class, [
@@ -52,7 +51,6 @@ class ConsultatieFormType extends AbstractType
                 'attr' => [
                     'placeholder'=>'Tastează diagnosticul'
                 ],
-                'required' => false
             ])
         ;
     }

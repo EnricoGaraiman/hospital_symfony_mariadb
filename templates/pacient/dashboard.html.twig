@@ -1,0 +1,68 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Panoul de bord{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/dashboard/main.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="top-bar sticky-top">
+        <div class="w-100">
+            <div class="px-4 py-2 border bg-light">Prezentare generală</div>
+        </div>
+    </div>
+
+    <div class="content container min-vh-content">
+        <div class="container-fluid dashboard-container">
+            <!-- General data -->
+            <div class="row">
+                <div class="col-xl border bg-light dashboard-section dashboard-medici m-2">
+                    <div class="p-4 row">
+                        <div class="col">
+                            <div class="widget-heading">Medici</div>
+                            <div class="widget-subheading">Numărul de medici care te-au consultat</div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="widget-numbers text-white float-right" id="total-medici-number"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl border bg-light dashboard-section dashboard-consultatii m-2">
+                    <div class="p-4 row">
+                        <div class="col">
+                            <div class="widget-heading">Consultații</div>
+                            <div class="widget-subheading">Numărul de consultații pe care le-ai avut</div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="widget-numbers text-white float-right" id="total-consultatii-number"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Charts -->
+            <div class="row">
+                <div class="col-xl border bg-light dashboard-section m-2">
+                    <div class="p-4 row">
+                        <div class="widget-heading color-black">Statistică generală</div>
+                        <div class="widget-subheading color-black">Distribuție</div>
+                        <canvas id="distribution-chart" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="col-xl border bg-light dashboard-section m-2">
+                    <div class="p-4 row">
+                        <div class="widget-heading color-black">Distribuția medicilor</div>
+                        <div class="widget-subheading color-black">După numărul de consultații pe care le-ai avut</div>
+                        <canvas id="top-chart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/dashboard/pacient-dashboard.js') }}"></script>
+{% endblock %}

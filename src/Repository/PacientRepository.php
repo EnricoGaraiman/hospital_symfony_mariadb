@@ -79,6 +79,15 @@ class PacientRepository extends ServiceEntityRepository implements PasswordUpgra
         return $qb->getQuery()->getResult();
     }
 
+    public function getLastPacienti($limit) {
+        $qb = $this->createQueryBuilder('p');
+
+        $qb->orderBy('p.id', 'DESC')
+            ->setFirstResult(0)
+            ->setMaxResults($limit);
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Pacient[] Returns an array of Pacient objects
     //  */

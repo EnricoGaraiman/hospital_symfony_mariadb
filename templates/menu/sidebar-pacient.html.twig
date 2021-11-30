@@ -5,14 +5,11 @@
         </div>
 
         <ul class="list-unstyled components">
-            <li>
-                <a href="#">Prezentare generală</a>
+            <li {{ app.request.get('_route') == 'dashboard_pacient' ? 'class="active"' }}>
+                <a href="{{ path('dashboard_pacient') }}">Prezentare generală</a>
             </li>
             <li {{ app.request.get('_route') == 'pacient_view_consultatii' ? 'class="active"' }}>
                 <a href="{{ path('pacient_view_consultatii') }}">Vizualizare consultații</a>
-            </li>
-            <li>
-                <a href="#">Programează o consultație</a>
             </li>
         </ul>
     </div>

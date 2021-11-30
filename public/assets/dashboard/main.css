@@ -45,3 +45,7 @@
 .last-table {
     color: var(--bg-color);
 }
+
+.color-black {
+    color: #000000!important;
+}

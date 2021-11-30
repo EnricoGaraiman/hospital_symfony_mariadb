@@ -132,7 +132,7 @@ function tableTemplate(consultatii, offset) {
             html += `<span class="badge rounded-pill bg-warning">Nu există</span>`;
         }
         html += `</td><td>`
-        if(consultatie['dozaMedicament'] !== 0) {
+        if(consultatie['dozaMedicament'] !== null) {
             html += `${consultatie['dozaMedicament']}`;
         }
         else {

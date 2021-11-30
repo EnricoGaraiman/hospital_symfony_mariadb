@@ -3,14 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Consultatie;
+use App\Entity\Medic;
+use App\Entity\Medicament;
 use App\Entity\Pacient;
 use App\Form\PacientProfileFormType;
 use App\Repository\ConsultatieRepository;
 use App\Services\JsonSerializerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Config\Definition\Exception\ForbiddenOverwriteException;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +24,50 @@ class PacientController extends AbstractController
     public function __construct(EntityManagerInterface $entityManager) {
         $this->entityManager = $entityManager;
     }
+
+    /**
+     * @Route("/pacient/dashboard", name="dashboard_pacient")
+     */
+    public function dashboard(): Response
+    {
+        return $this->render('pacient/dashboard.html.twig');
+    }
+
+    /**
+     * @Route("/pacient/dashboard/distributie", name="dashboard_distribution_pacient")
+     */
+    public function dashboardDistributionJson(ConsultatieRepository $consultatieRepository): JsonResponse
+    {
+        $idPacient = $this->getUser()->getId();
+        $data = [
+            'Medici' => $consultatieRepository->getNumberOfMediciForPacient($idPacient),
+            'Consultații' => $consultatieRepository->getNumberOfConsultatiiForPacient($idPacient),
+            'Medicamente' => $consultatieRepository->getNumberOfMedicamenteForPacient($idPacient),
+        ];
+        arsort($data);
+        return new JsonResponse($data);
+    }
+
+    /**
+     * @Route("/pacient/dashboard/top-medici", name="dashboard_top_medici_for_pacient")
+     */
+    public function dashboardTopMediciJson(): JsonResponse
+    {
+        $data = [];
+        $consultatii = $this->entityManager->getRepository(Consultatie::class)->findBy(['pacient'=>$this->getUser()->getId()]);
+        foreach ($consultatii as $consultatie) {
+            $key = $consultatie->getMedic()->getPrenumeMedic() . ' ' . $consultatie->getMedic()->getNumeMedic();
+            if(array_key_exists($key, $data)) {
+                $data[$key] += 1;
+            }
+            else {
+                $data[$key] = 1;
+            }
+        }
+        arsort($data);
+        return new JsonResponse($data);
+    }
+
 
     /**
      * @Route("/pacient/{id}/profil", name="pacient_profile")

@@ -16,6 +16,7 @@
 
     <div class="content container min-vh-content">
         <div class="container-fluid dashboard-container">
+            <!-- General data -->
             <div class="row">
                 <div class="col-xl border bg-light dashboard-section dashboard-medici m-2">
                     <div class="p-4 row">
@@ -24,7 +25,7 @@
                             <div class="widget-subheading">Numărul total de medici</div>
                         </div>
                         <div class="col-auto">
-                            <div class="widget-numbers text-white float-right"><span>100</span></div>
+                            <div class="widget-numbers text-white float-right" id="total-medici-number"></div>
                         </div>
                     </div>
                 </div>
@@ -35,7 +36,7 @@
                             <div class="widget-subheading">Numărul total de consultații</div>
                         </div>
                         <div class="col-auto">
-                            <div class="widget-numbers text-white float-right"><span>50</span></div>
+                            <div class="widget-numbers text-white float-right" id="total-consultatii-number"></div>
                         </div>
                     </div>
                 </div>
@@ -46,25 +47,55 @@
                             <div class="widget-subheading">Numărul total de pacienți</div>
                         </div>
                         <div class="col-auto">
-                            <div class="widget-numbers text-white float-right"><span>1000</span></div>
+                            <div class="widget-numbers text-white float-right" id="total-pacienti-number"></div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Charts -->
+            <div class="row">
+                <div class="col-xl border bg-light dashboard-section m-2">
+                    <div class="p-4 row">
+                        <div class="widget-heading color-black">Statistică generală</div>
+                        <div class="widget-subheading color-black">Distribuție</div>
+                        <canvas id="distribution-chart" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="col-xl border bg-light dashboard-section m-2">
+                    <div class="p-4 row">
+                        <div class="widget-heading color-black">Distribuția medicilor</div>
+                        <div class="widget-subheading color-black">După numărul de consultații</div>
+                        <canvas id="top-chart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Last added data -->
             <div class="row">
                 <div class="col-lg border bg-light dashboard-section dashboard-last-consultatii m-2">
                     <div class="p-4">
                         <div class="widget-heading">Ultimele consultații înregistrate</div>
                         <div class="last-table row">
-                            <div class="col">
+                            <div class="col-4">
                                 Data
                             </div>
-                            <div class="col">
-                                Pacient
-                            </div>
-                            <div class="col">
+                            <div class="col-4">
                                 Medic
                             </div>
+                            <div class="col-4">
+                                Pacient
+                            </div>
+                            <hr class="mt-2 mb-2">
+                            {% for consultatie in lastConsultatii %}
+                            <div class="col-4">
+                                {{ consultatie.data|date('d/m/Y') }}
+                            </div>
+                            <div class="col-4">
+                                {{ consultatie.medic.prenumeMedic }} {{ consultatie.medic.numeMedic }}
+                            </div>
+                            <div class="col-4">
+                                {{ consultatie.pacient.prenumePacient }} {{ consultatie.pacient.numePacient }}
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -72,15 +103,27 @@
                     <div class="p-4">
                         <div class="widget-heading">Ultimii pacienți înregistrați</div>
                         <div class="last-table row">
-                            <div class="col">
-                                Nume
-                            </div>
-                            <div class="col">
+                            <div class="col-4">
                                 Prenume
                             </div>
-                            <div class="col">
+                            <div class="col-4">
+                                Nume
+                            </div>
+                            <div class="col-4">
                                 CNP
                             </div>
+                            <hr class="mt-2 mb-2">
+                            {% for pacient in lastPacienti %}
+                                <div class="col-4">
+                                    {{ pacient.prenumePacient }}
+                                </div>
+                                <div class="col-4">
+                                    {{ pacient.numePacient }}
+                                </div>
+                                <div class="col-4">
+                                    {{ pacient.cnp }}
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -91,4 +134,5 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('assets/dashboard/medic-dashboard.js') }}"></script>
 {% endblock %}

@@ -47,9 +47,50 @@ class MedicController extends AbstractController
     /**
      * @Route("/medic/dashboard", name="dashboard")
      */
-    public function dashboard(): Response
+    public function dashboard(ConsultatieRepository $consultatieRepository, PacientRepository $pacientRepository): Response
     {
-        return $this->render('dashboard/index.html.twig');
+        $lastConsultatii = $consultatieRepository->getLastConsultatii(5);
+        $lastPacienti = $pacientRepository->getLastPacienti(5);
+
+        return $this->render('dashboard/index.html.twig', [
+            'lastConsultatii' => $lastConsultatii,
+            'lastPacienti' => $lastPacienti,
+        ]);
+    }
+
+    /**
+     * @Route("/medic/dashboard/distributie", name="dashboard_distribution")
+     */
+    public function dashboardDistributionJson(): JsonResponse
+    {
+        $data = [
+            'Medici' => count($this->entityManager->getRepository(Medic::class)->findAll()),
+            'Pacienți' => count($this->entityManager->getRepository(Pacient::class)->findAll()),
+            'Consultații' => count($this->entityManager->getRepository(Consultatie::class)->findAll()),
+            'Medicamente' => count($this->entityManager->getRepository(Medicament::class)->findAll()),
+        ];
+        arsort($data);
+        return new JsonResponse($data);
+    }
+
+    /**
+     * @Route("/medic/dashboard/top-medici", name="dashboard_top_medici")
+     */
+    public function dashboardTopMediciJson(): JsonResponse
+    {
+        $data = [];
+        $consultatii = $this->entityManager->getRepository(Consultatie::class)->findAll();
+        foreach ($consultatii as $consultatie) {
+            $key = $consultatie->getMedic()->getPrenumeMedic() . ' ' . $consultatie->getMedic()->getNumeMedic();
+            if(array_key_exists($key, $data)) {
+                $data[$key] += 1;
+            }
+            else {
+                $data[$key] = 1;
+            }
+        }
+        arsort($data);
+        return new JsonResponse($data);
     }
 
     /**
