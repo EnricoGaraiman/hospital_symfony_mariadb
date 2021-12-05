@@ -431,7 +431,7 @@ class MedicController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash('success', 'Consultația a fost actualizată cu succes.');
             // Send email to pacient to see results
-            $this->emailServices->sendEmail($consultatie->getPacient()->getEmail(), 'Rezultate consultatie', 'emails/consultatie.html.twig', [
+            $this->emailServices->sendEmail($consultatie->getPacient()->getEmail(), 'Actualizare rezultate consultatie', 'emails/consultatie_actualizata.html.twig', [
                 'consultatie' => $consultatie
             ]);
             return new RedirectResponse($this->generateUrl('view_consultatii'));

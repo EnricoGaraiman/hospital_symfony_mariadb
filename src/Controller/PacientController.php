@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Consultatie;
-use App\Entity\Medic;
-use App\Entity\Medicament;
 use App\Entity\Pacient;
 use App\Form\PacientProfileFormType;
 use App\Repository\ConsultatieRepository;

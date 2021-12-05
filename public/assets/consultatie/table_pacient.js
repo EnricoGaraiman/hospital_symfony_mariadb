@@ -3,6 +3,7 @@ $(document).ready(function () {
     ajaxProccessingStage();
 
     $('.items-per-page-select').on('change', function () {
+        paginationProccessing(1);
         ajaxProccessingStage();
     })
 });
@@ -44,10 +45,10 @@ function getData() {
 }
 
 // When user click on pagination, change url
-function paginationProccessing() {
+function paginationProccessing(page=null) {
     let url = new URL(window.location.href);
     let searchParams = new URLSearchParams(url.search);
-    if(searchParams.get('pagina') === null || searchParams.get('pagina') === '') {
+    if(searchParams.get('pagina') === null || searchParams.get('pagina') === '' || page !== null) {
         searchParams.set('pagina', 1);
         history.pushState(null, null, "?"+searchParams.toString());
     }
@@ -99,7 +100,7 @@ function tableTemplate(consultatii, offset) {
     $.each(consultatii, function( index, consultatie ) {
         html += `<tr>
                         <td>${offset + index + 1}</td>
-                        <td>${moment(consultatie['data']['timestamp'] * 1000).format('DD/MM/YYYY')}</td>
+                        <td>${moment(consultatie['data']['timestamp'] * 1000).format('DD.MM.YYYY')}</td>
                         <td>${consultatie['medic']['prenumeMedic']} ${consultatie['medic']['numeMedic']}</td>
                         <td>`
         if(consultatie['medicament'] !== null) {
@@ -110,7 +111,7 @@ function tableTemplate(consultatii, offset) {
         }
         html += `</td><td>`
         if(consultatie['dozaMedicament'] !== null) {
-            html += `${consultatie['dozaMedicament']}`;
+            html += `${consultatie['dozaMedicament']} ml`;
         }
         else {
             html += `<span class="badge rounded-pill bg-warning">Nu există</span>`;

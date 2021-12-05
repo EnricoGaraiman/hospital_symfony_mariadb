@@ -15,6 +15,7 @@ $(document).ready(function () {
     })
 
     $('.items-per-page-select').on('change', function () {
+        paginationProccessing(1);
         ajaxProccessingStage();
     })
 });
@@ -60,10 +61,10 @@ function getData() {
 }
 
 // When user click on pagination, change url
-function paginationProccessing() {
+function paginationProccessing(page=null) {
     let url = new URL(window.location.href);
     let searchParams = new URLSearchParams(url.search);
-    if(searchParams.get('pagina') === null || searchParams.get('pagina') === '') {
+    if(searchParams.get('pagina') === null || searchParams.get('pagina') === '' || page !== null) {
         searchParams.set('pagina', 1);
         history.pushState(null, null, "?"+searchParams.toString());
     }

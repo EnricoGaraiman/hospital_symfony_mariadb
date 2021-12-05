@@ -18,7 +18,7 @@
                             <tbody>
                             <tr>
                                 <th>Data consultației</th>
-                                <td>{{ consultatie.data|date('d/m/yy') }}</td>
+                                <td>{{ consultatie.data|date('d.m.yy') }}</td>
                             </tr>
                             <tr>
                                 <th rowspan="3">Medic</th>
@@ -46,7 +46,7 @@
                             </tr>
                             <tr>
                                 <th>Doză medicament</th>
-                                <td>{{ consultatie.dozaMedicament ? consultatie.dozaMedicament + 'ml' : 'Nu există' }}</td>
+                                <td>{{ consultatie.dozaMedicament ? consultatie.dozaMedicament ~ ' ml' : 'Nu există' }}</td>
                             </tr>
                             <tr>
                                 <th>Diagnostic</th>

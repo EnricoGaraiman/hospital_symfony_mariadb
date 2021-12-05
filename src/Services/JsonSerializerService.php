@@ -11,7 +11,8 @@ use Symfony\Component\Serializer\Serializer;
 class JsonSerializerService
 {
     // Convert entity object to json with specific attributes
-    public function jsonSerializer($entities, $attributes) {
+    public function jsonSerializer($entities, $attributes): array
+    {
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);

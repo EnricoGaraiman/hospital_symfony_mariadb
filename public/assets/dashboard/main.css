@@ -49,3 +49,7 @@
 .color-black {
     color: #000000!important;
 }
+
+.last-link-dashboard:hover {
+    color: var(--grey-400);
+}

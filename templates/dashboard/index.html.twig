@@ -86,15 +86,19 @@
                             </div>
                             <hr class="mt-2 mb-2">
                             {% for consultatie in lastConsultatii %}
-                            <div class="col-4">
-                                {{ consultatie.data|date('d/m/Y') }}
-                            </div>
-                            <div class="col-4">
-                                {{ consultatie.medic.prenumeMedic }} {{ consultatie.medic.numeMedic }}
-                            </div>
-                            <div class="col-4">
-                                {{ consultatie.pacient.prenumePacient }} {{ consultatie.pacient.numePacient }}
-                            </div>
+                            <a href="{{ path('view_consultatie', {'id': consultatie.id}) }}" class="last-link-dashboard">
+                                <div class="row">
+                                    <div class="col-4">
+                                        {{ consultatie.data|date('d.m.Y') }}
+                                    </div>
+                                    <div class="col-4">
+                                        {{ consultatie.medic.prenumeMedic }} {{ consultatie.medic.numeMedic }}
+                                    </div>
+                                    <div class="col-4">
+                                        {{ consultatie.pacient.prenumePacient }} {{ consultatie.pacient.numePacient }}
+                                    </div>
+                                </div>
+                            </a>
                             {% endfor %}
                         </div>
                     </div>
@@ -114,15 +118,19 @@
                             </div>
                             <hr class="mt-2 mb-2">
                             {% for pacient in lastPacienti %}
-                                <div class="col-4">
-                                    {{ pacient.prenumePacient }}
+                            <a href="{{ path('view_pacient', {'id': pacient.id}) }}" class="last-link-dashboard">
+                                <div class="row">
+                                    <div class="col-4">
+                                        {{ pacient.prenumePacient }}
+                                    </div>
+                                    <div class="col-4">
+                                        {{ pacient.numePacient }}
+                                    </div>
+                                    <div class="col-4">
+                                        {{ pacient.cnp }}
+                                    </div>
                                 </div>
-                                <div class="col-4">
-                                    {{ pacient.numePacient }}
-                                </div>
-                                <div class="col-4">
-                                    {{ pacient.cnp }}
-                                </div>
+                            </a>
                             {% endfor %}
                         </div>
                     </div>
