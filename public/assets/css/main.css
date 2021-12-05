@@ -65,6 +65,7 @@ a:focus {
 
 .active {
     background: var(--hover-color);
+    border-radius: 8px;
 }
 
 .active-link {
@@ -269,7 +270,7 @@ a:focus {
 }
 
 #sidebar ul.components {
-    padding: 20px 0;
+    padding: 20px 10px;
 }
 
 #sidebar ul p {
@@ -280,6 +281,8 @@ a:focus {
 #sidebar ul li a {
     padding: 10px;
     display: block;
+    border-radius: 8px;
+    margin: 4px 0!important;
 }
 
 #sidebar ul li a:hover {
@@ -321,7 +324,6 @@ a[data-toggle="collapse"] {
 
 ul ul a {
     padding-left: 30px !important;
-    /*background: var(--main-color);*/
 }
 
 ul.CTAs {
@@ -358,6 +360,7 @@ a.article:hover {
     -o-transition: all 0.3s;
     -moz-transition: all 0.3s;
     transition: all 0.3s;
+    overflow: auto;
 }
 
 .content-h-100 {

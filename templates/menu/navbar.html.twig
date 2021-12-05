@@ -12,6 +12,15 @@
             <ul class="nav navbar-nav ms-auto">
                 <li class="nav-item">
                     {% if is_granted('ROLE_ADMIN') %}
+                        <a class="nav-link" href="javascript:void(0)">Salut, {{ app.user.prenumeMedic }} <span class="badge rounded-pill bg-success">ADMIN</span></a>
+                    {% elseif is_granted('ROLE_MEDIC')%}
+                        <a class="nav-link" href="javascript:void(0)">Salut, {{ app.user.prenumeMedic }}</a>
+                    {% elseif is_granted('ROLE_PACIENT')%}
+                        <a class="nav-link" href="javascript:void(0)">Salut, {{ app.user.prenumePacient }}</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if is_granted('ROLE_ADMIN') %}
                         <a class="nav-link {{ app.request.get('_route') == 'medic_profile' ? 'active-link' }}"
                            href="{{ path('medic_profile', {'id': app.user.id}) }}"><i class="fa fa-user"></i> Profilul meu</a>
                     {% elseif is_granted('ROLE_MEDIC')%}
