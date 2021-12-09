@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Medic;
 use App\Entity\Pacient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -36,7 +37,7 @@ class PacientRepository extends ServiceEntityRepository implements PasswordUpgra
         $this->_em->flush();
     }
 
-    public function getPacientiByFilters($filters, $items, $page, $getNumber)
+    public function getPacientiByFilters($filters, $items, $page, $getNumber, $medicId)
     {
         $qb = $this->createQueryBuilder('p');
         // filters
@@ -53,6 +54,11 @@ class PacientRepository extends ServiceEntityRepository implements PasswordUpgra
         }
         else if($filters['asigurare'] !== "" and $filters['asigurare'] == 0) {
             $qb->andwhere('p.asigurare = 0');
+        }
+
+        if($filters['pacienti_medic'] !== "" and $filters['pacienti_medic'] == 1) {
+            $qb->andWhere(':medicId MEMBER OF p.medici')
+                ->setParameter('medicId', $medicId);
         }
 
         if($getNumber === true) {

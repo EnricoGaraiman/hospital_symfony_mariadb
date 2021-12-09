@@ -23,7 +23,14 @@ $(document).ready(function() {
     });
 });
 
-function deleteMedic(id) {
+$(document).ready(function() {
+    $('#pacienti_filters_pacienti_medic').select2({
+        width: '100%',
+        // placeholder: 'Toți pacienții / Doar pacienții mei'
+    });
+});
+
+function deletePacient(id) {
     Swal.fire({
         title: 'Ești sigur că dorești să ștergi acest pacient?',
         icon: 'warning',

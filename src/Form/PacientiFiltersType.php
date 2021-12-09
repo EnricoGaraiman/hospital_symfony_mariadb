@@ -32,6 +32,18 @@ class PacientiFiltersType extends AbstractType
                 'label' => 'Asigurare',
                 'label_attr' => ['class' => 'select2-label']
             ])
+            ->add('pacienti_medic', ChoiceType::class, [
+                'choices' => [
+                    'Toți pacienții' => 0,
+                    'Pacienții mei' => 1,
+                ],
+                'mapped' => false,
+                'required' => false,
+                'placeholder' => false,
+                'row_attr' => ['class' => 'input'],
+                'label' => 'Toți pacienții / Pacienții mei',
+                'label_attr' => ['class' => 'select2-label']
+            ])
         ;
     }
 }

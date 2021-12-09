@@ -22,6 +22,7 @@ use App\Services\EmailServices;
 use App\Services\JsonSerializerService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Util\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -90,6 +91,9 @@ class MedicController extends AbstractController
             }
         }
         arsort($data);
+        if(count($data) > 10) {
+            $data = array_slice($data, 0, 10, true);
+        }
         return new JsonResponse($data);
     }
 
@@ -172,8 +176,8 @@ class MedicController extends AbstractController
     public function viewPacientiJson(Request $request, JsonSerializerService $jsonSerializerService, PacientRepository $pacientRepository): Response
     {
         $response = [];
-        $pacienti = $pacientRepository->getPacientiByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), false);
-        $numberOfPacienti = $pacientRepository->getPacientiByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), true);
+        $pacienti = $pacientRepository->getPacientiByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), false, $this->getUser()->getId());
+        $numberOfPacienti = $pacientRepository->getPacientiByFilters($request->get('filtre'), $request->get('itemi'), $request->get('pagina'), true, $this->getUser()->getId());
         $pacientiArray = $jsonSerializerService->jsonSerializer($pacienti, ['id','prenumePacient', 'numePacient', 'email', 'cnp', 'adresa', 'asigurare']);
         $response['pacienti'] = $pacientiArray;
         $response['pagina'] = $request->get('pagina');
@@ -215,15 +219,19 @@ class MedicController extends AbstractController
             );
             $pacient->setIsVerified(true)
                 ->setRoles(['ROLE_PACIENT']);
+            $this->entityManager->getConnection()->beginTransaction();
             try {
                 $this->entityManager->persist($pacient);
+                $this->entityManager->persist($this->getUser()->addPacient($pacient));
                 $this->entityManager->flush();
+                $this->entityManager->getConnection()->commit();
                 $this->addFlash('success', 'Pacientul a fost adăugat cu succes.');
                 $this->emailServices->sendEmail($pacient->getEmail(), 'Bine ai venit pe platformă', 'emails/new_user.html.twig', [
                     'password' => $form->get('plainPassword')->getData()
                 ]);
                 return new RedirectResponse($this->generateUrl('view_pacienti'));
             } catch (UniqueConstraintViolationException $e) {
+                $this->entityManager->getConnection()->rollBack();
                 $this->addFlash('error', 'Există deja un pacient cu același email/cnp.');
             }
         }
@@ -250,6 +258,7 @@ class MedicController extends AbstractController
                 return new RedirectResponse($this->generateUrl('view_pacienti'));
             } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash('error', 'Există deja un pacient cu același email/cnp.');
+                return new RedirectResponse($this->generateUrl('edit_pacient', ['id' => $pacient->getId()]));
             }
         }
 
@@ -377,14 +386,23 @@ class MedicController extends AbstractController
             $consultatie = $form->getData();
             $consultatie->setMedic($this->getUser());
             $consultatie->setData((new \DateTime()));
-            $this->entityManager->persist($consultatie);
-            $this->entityManager->flush();
-            $this->addFlash('success', 'Consultația a fost adăugată cu succes.');
-            // Send email to pacient to see results
-            $this->emailServices->sendEmail($consultatie->getPacient()->getEmail(), 'Rezultate consultatie', 'emails/consultatie.html.twig', [
-                'consultatie' => $consultatie
-            ]);
-            return new RedirectResponse($this->generateUrl('view_consultatii'));
+            $this->entityManager->getConnection()->beginTransaction();
+            try {
+                $this->entityManager->persist($consultatie);
+                $this->entityManager->persist($this->getUser()->addPacient($consultatie->getPacient()));
+                $this->entityManager->flush();
+                $this->entityManager->getConnection()->commit();
+                $this->addFlash('success', 'Consultația a fost adăugată cu succes.');
+                // Send email to pacient to see results
+                $this->emailServices->sendEmail($consultatie->getPacient()->getEmail(), 'Rezultate consultatie', 'emails/consultatie.html.twig', [
+                    'consultatie' => $consultatie
+                ]);
+                return new RedirectResponse($this->generateUrl('view_consultatii'));
+            } catch (Exception $e) {
+                $this->entityManager->getConnection()->rollBack();
+                $this->addFlash('error', 'A apărut o problemă.');
+                return new RedirectResponse($this->generateUrl('view_consultatii'));
+            }
         }
 
         return $this->render('consultatie/add_edit_consultatie.html.twig', [
@@ -427,14 +445,23 @@ class MedicController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $consultatie = $form->getData();
             $consultatie->setMedic($this->getUser());
-            $this->entityManager->persist($consultatie);
-            $this->entityManager->flush();
-            $this->addFlash('success', 'Consultația a fost actualizată cu succes.');
-            // Send email to pacient to see results
-            $this->emailServices->sendEmail($consultatie->getPacient()->getEmail(), 'Actualizare rezultate consultatie', 'emails/consultatie_actualizata.html.twig', [
-                'consultatie' => $consultatie
-            ]);
-            return new RedirectResponse($this->generateUrl('view_consultatii'));
+            $this->entityManager->getConnection()->beginTransaction();
+            try {
+                $this->entityManager->persist($consultatie);
+                $this->entityManager->persist($this->getUser()->addPacient($consultatie->getPacient()));
+                $this->entityManager->flush();
+                $this->entityManager->getConnection()->commit();
+                $this->addFlash('success', 'Consultația a fost actualizată cu succes.');
+                // Send email to pacient to see results
+                $this->emailServices->sendEmail($consultatie->getPacient()->getEmail(), 'Actualizare rezultate consultatie', 'emails/consultatie_actualizata.html.twig', [
+                    'consultatie' => $consultatie
+                ]);
+                return new RedirectResponse($this->generateUrl('view_consultatii'));
+            } catch (Exception $e) {
+                $this->entityManager->getConnection()->rollBack();
+                $this->addFlash('error', 'A apărut o problemă.');
+                return new RedirectResponse($this->generateUrl('view_consultatii'));
+            }
         }
 
         return $this->render('consultatie/add_edit_consultatie.html.twig', [

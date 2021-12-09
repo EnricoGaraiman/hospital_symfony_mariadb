@@ -11,6 +11,7 @@ $(document).ready(function () {
     $('.btn-filters-delete').on('click', function (e) {
         $('#pacienti_filters_user').val('');
         $('#pacienti_filters_asigurare').val('').trigger("change");
+        $('#pacienti_filters_pacienti_medic').val('0').trigger("change");
         ajaxProccessingStage();
     })
 
@@ -53,7 +54,8 @@ function getData() {
     let data = {};
     data['filtre'] = {
         'pacient': $('#pacienti_filters_user').val() !== null ? $('#pacienti_filters_user').val() : '',
-        'asigurare': $('#pacienti_filters_asigurare').val() !== null ? $('#pacienti_filters_asigurare').val() : ''
+        'asigurare': $('#pacienti_filters_asigurare').val() !== null ? $('#pacienti_filters_asigurare').val() : '',
+        'pacienti_medic': $('#pacienti_filters_pacienti_medic').val() !== null ? $('#pacienti_filters_pacienti_medic').val() : ''
     };
     data['itemi'] = $('.items-per-page-select option:selected').val();
     data['pagina'] = searchParams.get('pagina');
@@ -139,7 +141,7 @@ function tableTemplate(pacienti, offset) {
                 <a href="/medic/vizualizare-pacient/${pacient['id']}" class="btn-view"><i class="fas fa-eye"></i></a>
                 <a href="/medic/actualizare-pacient/${pacient['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>`;
             if(isGranted === true) {
-                html += `<a class="btn-delete" onclick="deleteMedic('${pacient['id']}')"><i class="fas fa-trash"></i></a>`;
+                html += `<a class="btn-delete" onclick="deletePacient('${pacient['id']}')"><i class="fas fa-trash"></i></a>`;
             }
         html += `</td>
                     </tr>`;

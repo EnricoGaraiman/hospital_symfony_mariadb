@@ -93,6 +93,7 @@ class AdminController extends AbstractController
                 return new RedirectResponse($this->generateUrl('view_medici'));
             } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash('error', 'Există deja un medic cu același email/cnp.');
+                return new RedirectResponse($this->generateUrl('edit_medic', ['id' => $medic->getId()]));
             }
         }
 

@@ -63,6 +63,9 @@ class PacientController extends AbstractController
             }
         }
         arsort($data);
+        if(count($data) > 10) {
+            $data = array_slice($data, 0, 10, true);
+        }
         return new JsonResponse($data);
     }
 

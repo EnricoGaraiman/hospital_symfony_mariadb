@@ -21,11 +21,14 @@
                     <div class="p-4 row">
                         {{ form_start(filters) }}
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 {{ form_row(filters.user) }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 {{ form_row(filters.asigurare) }}
+                            </div>
+                            <div class="col-lg-4">
+                                {{ form_row(filters.pacienti_medic) }}
                             </div>
                         </div>
                         <button type="submit" class="button button-width float-end btn-filters-search">Caută</button>
