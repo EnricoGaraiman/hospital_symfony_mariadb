@@ -81,6 +81,22 @@ class MedicRepository extends ServiceEntityRepository implements PasswordUpgrade
         return $qb->getQuery()->getResult();
     }
 
+    public function getMediciForPacient($idPacient, $items, $page, $getNumber)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->where(':idPacient MEMBER OF m.pacient ')
+            ->setParameter('idPacient', $idPacient);
+
+        if($getNumber === true) {
+            $qb->select('count(distinct(m.id))');
+            return $qb->getQuery()->getSingleScalarResult();
+        }
+
+        $qb->setFirstResult(((int)$page - 1) * (int)$items)
+            ->setMaxResults((int)$items);
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Medic[] Returns an array of Medic objects
     //  */

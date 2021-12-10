@@ -12,6 +12,9 @@
             <li {{ app.request.get('_route') == 'pacient_view_consultatii' ? 'class="active"' }}>
                 <a href="{{ path('pacient_view_consultatii') }}"><i class="fa fa-procedures"></i> Vizualizare consultații</a>
             </li>
+            <li {{ app.request.get('_route') == 'pacient_view_medici' ? 'class="active"' }}>
+                <a href="{{ path('pacient_view_medici') }}"><i class="fa fa-user-md"></i> Vizualizare medici</a>
+            </li>
         </ul>
     </div>
 </nav>

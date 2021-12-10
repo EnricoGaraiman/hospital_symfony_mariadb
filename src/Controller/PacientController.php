@@ -6,6 +6,7 @@ use App\Entity\Consultatie;
 use App\Entity\Pacient;
 use App\Form\PacientProfileFormType;
 use App\Repository\ConsultatieRepository;
+use App\Repository\MedicRepository;
 use App\Services\JsonSerializerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -69,7 +70,6 @@ class PacientController extends AbstractController
         return new JsonResponse($data);
     }
 
-
     /**
      * @Route("/pacient/{id}/profil", name="pacient_profile")
      */
@@ -132,4 +132,30 @@ class PacientController extends AbstractController
             'consultatie'=>$consultatie,
         ]);
     }
+
+    /**
+     * @Route("/pacient/vizualizare-medici", name="pacient_view_medici")
+     */
+    public function pacientViewMedici(): Response
+    {
+        return $this->render('pacient/view_medici.html.twig');
+    }
+
+    /**
+     * @Route("/pacient/vizualizare-medici-json", name="pacient_view_medici_json")
+     */
+    public function viewMediciForPacientJson(Request $request, JsonSerializerService $jsonSerializerService, MedicRepository $medicRepository): Response
+    {
+        $response = [];
+        $medici = $medicRepository->getMediciForPacient($this->getUser()->getId(), $request->get('itemi'), $request->get('pagina'), false);
+        $numberOfMedici = $medicRepository->getMediciForPacient($this->getUser()->getId(), $request->get('itemi'), $request->get('pagina'), true);
+        $mediciArray = $jsonSerializerService->jsonSerializer($medici, ['id', 'prenumeMedic', 'numeMedic', 'email', 'specializare']);
+        $response['medici'] = $mediciArray;
+        $response['pagina'] = $request->get('pagina');
+        $response['numberOfPages'] = ceil($numberOfMedici / intval($request->get('itemi')));
+        $response['numberOfRows'] = $numberOfMedici;
+        $response['offset'] = ((int)$request->get('pagina') - 1) * (int)$request->get('itemi');
+        return new JsonResponse($response);
+    }
+
 }
