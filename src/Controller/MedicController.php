@@ -102,6 +102,10 @@ class MedicController extends AbstractController
      */
     public function medicProfile(Medic $medic, Request $request): Response
     {
+        if($this->getUser()->getId() !== $medic->getId() and !$this->isGranted('ROLE_ADMIN')) {
+            $this->denyAccessUnlessGranted('', 'Acces interzis', 'Nu îți este permis să vizualizezi această pagină');
+        }
+
         $form = $this->createForm(MedicProfileFormType::class, $medic);
         $alert = false;
 

@@ -75,6 +75,10 @@ class PacientController extends AbstractController
      */
     public function pacientProfile(Pacient $pacient, Request $request): Response
     {
+        if($this->getUser()->getId() !== $pacient->getId() and !$this->isGranted('ROLE_ADMIN')) {
+            $this->denyAccessUnlessGranted('', 'Acces interzis', 'Nu îți este permis să vizualizezi această pagină');
+        }
+
         $form = $this->createForm(PacientProfileFormType::class, $pacient);
         $alert = false;
 
