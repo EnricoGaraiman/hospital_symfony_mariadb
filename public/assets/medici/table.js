@@ -130,11 +130,16 @@ function tableTemplate(medici, offset) {
                  html += `</td>
                         <td>`
                             if(isGranted === true && userId !== medic['id']) {
-                                html += `
+                                if($.inArray('ROLE_ADMIN', medic['roles']) !== -1) {
+                                    html += `<a href="/medic/vizualizare-medic/${medic['id']}" class="btn-view"><i class="fas fa-eye"></i></a>`
+                                }
+                                else {
+                                    html += `
                                     <a href="/medic/vizualizare-medic/${medic['id']}" class="btn-view"><i class="fas fa-eye"></i></a>
                                     <a href="/medic/actualizare-medic/${medic['id']}" class="btn-edit"><i class="fas fa-edit"></i></a>
                                     <a class="btn-delete" onclick="deleteMedic('${medic['id']}')"><i class="fas fa-trash"></i></a>
                                 `;
+                                }
                             }
                             else {
                                 html += `<a href="/medic/vizualizare-medic/${medic['id']}" class="btn-view"><i class="fas fa-eye"></i></a>`

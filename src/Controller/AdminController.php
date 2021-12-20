@@ -108,6 +108,10 @@ class AdminController extends AbstractController
      */
     public function deleteMedic(Medic $medic): JsonResponse
     {
+        if($medic->getId() === $this->getUser()->getId() or in_array('ROLE_ADMIN', $medic->getRoles())) {
+            return new JsonResponse(['type'=>'error', 'message'=>'Nu îți este permis să realizezi această acțiune. Nu poți șterge alt administrator']);
+        }
+
         try{
             $this->entityManager->remove($medic);
             $this->entityManager->flush();
