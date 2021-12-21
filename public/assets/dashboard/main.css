@@ -53,3 +53,9 @@
 .last-link-dashboard:hover {
     color: var(--grey-400);
 }
+
+@media (max-width: 768px) {
+    .dashboard-last-pacienti, .dashboard-last-consultatii {
+        overflow-x: scroll;
+    }
+}

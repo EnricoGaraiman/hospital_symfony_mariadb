@@ -135,6 +135,13 @@ a:focus {
     transform: rotate(180deg);
 }
 
+@media (max-width: 768px) {
+    .dashboard-footer {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
 /* ---------------------------------------------------
     FORMS STYLE
 ----------------------------------------------------- */
